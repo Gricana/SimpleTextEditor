@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "settingsdialog.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDir>
