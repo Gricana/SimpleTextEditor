@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+class SettingsDialog;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,10 +23,12 @@ private:
     QString fileName;
     void updateTitle();
     bool askForFileSaveAndClose();
+    SettingsDialog *settingsDialog;
 private slots:
     void slotNew();
     void slotOpen();
     void slotSave();
     void slotAboutProgram();
+    void showPreferencesDialog();
 };
 #endif // MAINWINDOW_H

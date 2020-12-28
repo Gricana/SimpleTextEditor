@@ -1,13 +1,13 @@
 #include "mainwindow.h"
+#include "settingsdialog.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDir>
 #include <QTextStream>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
+    ui(new Ui::MainWindow), settingsDialog(new SettingsDialog)
 {
     ui->setupUi(this);
     ui->action_Undo->setShortcut(QKeySequence::Undo);
@@ -28,12 +28,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->action_Undo->setIcon(QIcon(":/actions/undo"));
     ui->action_Redo->setIcon(QIcon(":/actions/redo"));
     ui->action_Select_all->setIcon(QIcon(":/actions/select_all"));
-    ui->action_Copy->setIcon(QIcon(":/actions/paste"));
-    ui->action_Paste->setIcon(QIcon(":/actions/copy"));
+    ui->action_Copy->setIcon(QIcon(":/actions/copy"));
+    ui->action_Paste->setIcon(QIcon(":/actions/paste"));
     ui->action_Cut->setIcon(QIcon(":/actions/cut"));
     ui->action_About_Qt->setIcon(QIcon(":/actions/about_qt"));
     ui->action_About_program->setIcon(QIcon(":/actions/about_program"));
-
+    ui->action_Settings->setIcon(QIcon(":/actions/settings"));
 
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
@@ -41,7 +41,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->action_Save, SIGNAL(triggered()), this, SLOT(slotSave()), Qt::UniqueConnection);
     connect(ui->action_About_Qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()), Qt::UniqueConnection);
     connect(ui->action_About_program, SIGNAL(triggered()), this, SLOT(slotAboutProgram()), Qt::UniqueConnection);
+    connect(ui->action_Settings, SIGNAL(triggered()), settingsDialog, SLOT(show())); // adding connecting for setting with method showPreferencesDialog()
     slotNew();
+}
+
+void MainWindow::showPreferencesDialog()
+{
+    settingsDialog->show();
 }
 
 void MainWindow::updateTitle()
