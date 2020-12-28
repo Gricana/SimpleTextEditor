@@ -21,6 +21,20 @@ MainWindow::MainWindow(QWidget *parent)
     ui->action_Save->setShortcut(QKeySequence::Save);
     ui->action_Exit->setShortcut(QKeySequence::Quit);
 
+    ui->action_New->setIcon(QIcon(":/actions/new"));
+    ui->action_Open->setIcon(QIcon(":/actions/open"));
+    ui->action_Save->setIcon(QIcon(":/actions/save"));
+    ui->action_Exit->setIcon(QIcon(":/actions/exit"));
+    ui->action_Undo->setIcon(QIcon(":/actions/undo"));
+    ui->action_Redo->setIcon(QIcon(":/actions/redo"));
+    ui->action_Select_all->setIcon(QIcon(":/actions/select_all"));
+    ui->action_Copy->setIcon(QIcon(":/actions/paste"));
+    ui->action_Paste->setIcon(QIcon(":/actions/copy"));
+    ui->action_Cut->setIcon(QIcon(":/actions/cut"));
+    ui->action_About_Qt->setIcon(QIcon(":/actions/about_qt"));
+    ui->action_About_program->setIcon(QIcon(":/actions/about_program"));
+
+
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_Open, SIGNAL(triggered()), this, SLOT(slotOpen()), Qt::UniqueConnection);
