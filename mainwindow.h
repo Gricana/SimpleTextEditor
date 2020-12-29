@@ -34,5 +34,6 @@ private slots:
     void slotAboutProgram();
     void showPreferencesDialog();
     void slotPreferencesAccepted();
+    void slotOutNumberStringAndColumn();
 };
 #endif // MAINWINDOW_H

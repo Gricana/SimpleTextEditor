@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui(new Ui::MainWindow), settingsDialog(new SettingsDialog)
 {
     ui->setupUi(this);
+    setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
     ui->action_Undo->setShortcut(QKeySequence::Undo);
     ui->action_Redo->setShortcut(QKeySequence::Redo);
     ui->action_Cut->setShortcut(QKeySequence::Cut);
@@ -44,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_About_program, SIGNAL(triggered()), this, SLOT(slotAboutProgram()), Qt::UniqueConnection);
     connect(ui->action_Settings, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
     connect(settingsDialog, SIGNAL(accepted()), this, SLOT(slotPreferencesAccepted()), Qt::UniqueConnection);
+    connect(ui->plainTextEdit, SIGNAL(cursorPositionChanged()), this, SLOT(slotOutNumberStringAndColumn()));
     slotNew();
 }
 
@@ -55,10 +57,13 @@ void MainWindow::updateTitle()
 
 void MainWindow::slotNew()
 {
-    fileName = "UntitledFile";
-    ui->plainTextEdit->clear();
-    setWindowModified(false);
-    updateTitle();
+    if (askForFileSaveAndClose())
+    {
+        fileName = "UntitledFile";
+        ui->plainTextEdit->clear();
+        setWindowModified(false);
+        updateTitle();
+    }
 }
 
 void MainWindow::slotOpen()
@@ -151,6 +156,13 @@ void MainWindow::slotPreferencesAccepted()
     readSettings();
     writeSettings();
     applySettings();
+}
+
+void MainWindow::slotOutNumberStringAndColumn()
+{
+    int line = ui->plainTextEdit->textCursor() .blockNumber() + 1;
+    int column = ui->plainTextEdit->textCursor().positionInBlock() + 1;
+    ui->statusbar->showMessage(QString("Line: %1  Column: %2").arg(line).arg(column));
 }
 
 MainWindow::~MainWindow()

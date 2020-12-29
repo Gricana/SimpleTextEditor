@@ -17,6 +17,9 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="statusTip">
+       <string>Enter the text</string>
+      </property>
       <property name="plainText">
        <string/>
       </property>
@@ -116,6 +119,9 @@
    <property name="text">
     <string>&amp;New</string>
    </property>
+   <property name="statusTip">
+    <string>Create a new file</string>
+   </property>
   </action>
   <action name="action_Open">
    <property name="icon">
@@ -124,6 +130,9 @@
    </property>
    <property name="text">
     <string>&amp;Open</string>
+   </property>
+   <property name="statusTip">
+    <string>Open a file from the selected directory</string>
    </property>
   </action>
   <action name="action_Save">
@@ -134,6 +143,9 @@
    <property name="text">
     <string>&amp;Save</string>
    </property>
+   <property name="statusTip">
+    <string>Save file in selected directory</string>
+   </property>
   </action>
   <action name="action_Exit">
    <property name="icon">
@@ -142,6 +154,9 @@
    </property>
    <property name="text">
     <string>&amp;Exit</string>
+   </property>
+   <property name="statusTip">
+    <string>Exit from application</string>
    </property>
   </action>
   <action name="action_Undo">
@@ -155,6 +170,9 @@
    <property name="text">
     <string>&amp;Undo</string>
    </property>
+   <property name="statusTip">
+    <string>Undo the last action</string>
+   </property>
   </action>
   <action name="action_Redo">
    <property name="enabled">
@@ -166,6 +184,9 @@
    </property>
    <property name="text">
     <string>&amp;Redo</string>
+   </property>
+   <property name="statusTip">
+    <string>Restore a canceled action</string>
    </property>
   </action>
   <action name="action_Cut">
@@ -179,6 +200,9 @@
    <property name="text">
     <string>&amp;Cut</string>
    </property>
+   <property name="statusTip">
+    <string>Delete the selected text</string>
+   </property>
   </action>
   <action name="action_Paste">
    <property name="icon">
@@ -187,6 +211,9 @@
    </property>
    <property name="text">
     <string>&amp;Paste</string>
+   </property>
+   <property name="statusTip">
+    <string>Paste the text from the clipboard</string>
    </property>
   </action>
   <action name="action_Select_all">
@@ -197,6 +224,9 @@
    <property name="text">
     <string>&amp;Select all</string>
    </property>
+   <property name="statusTip">
+    <string>Select all the contents of the file</string>
+   </property>
   </action>
   <action name="action_About_program">
    <property name="icon">
@@ -206,6 +236,9 @@
    <property name="text">
     <string>&amp;About program</string>
    </property>
+   <property name="statusTip">
+    <string>View the program version</string>
+   </property>
   </action>
   <action name="action_About_Qt">
    <property name="icon">
@@ -214,6 +247,9 @@
    </property>
    <property name="text">
     <string>&amp;About Qt</string>
+   </property>
+   <property name="statusTip">
+    <string>Information window of Qt</string>
    </property>
   </action>
   <action name="action_Copy">
@@ -227,6 +263,9 @@
    <property name="text">
     <string>&amp;Copy</string>
    </property>
+   <property name="statusTip">
+    <string>Copy the selected text fragment</string>
+   </property>
   </action>
   <action name="action_Settings">
    <property name="icon">
@@ -235,6 +274,9 @@
    </property>
    <property name="text">
     <string>&amp;Settings</string>
+   </property>
+   <property name="statusTip">
+    <string>Сustomize the view of the status bar and toolbar</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
