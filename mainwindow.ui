@@ -66,11 +66,22 @@
     <addaction name="action_About_program"/>
     <addaction name="action_About_Qt"/>
    </widget>
+   <widget class="QMenu" name="Settings">
+    <property name="title">
+     <string>&amp;Settings</string>
+    </property>
+    <addaction name="action_Settings"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
+   <addaction name="Settings"/>
    <addaction name="menu_About"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+  </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
@@ -94,6 +105,8 @@
    <addaction name="action_Cut"/>
    <addaction name="action_Copy"/>
    <addaction name="action_Paste"/>
+   <addaction name="separator"/>
+   <addaction name="action_Settings"/>
   </widget>
   <action name="action_New">
    <property name="icon">
@@ -167,18 +180,6 @@
     <string>&amp;Cut</string>
    </property>
   </action>
-  <action name="action_Copy">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>resources/images/copy.ico</normaloff>resources/images/copy.ico</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Copy</string>
-   </property>
-  </action>
   <action name="action_Paste">
    <property name="icon">
     <iconset>
@@ -215,25 +216,33 @@
     <string>&amp;About Qt</string>
    </property>
   </action>
+  <action name="action_Copy">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/images/copy.ico</normaloff>resources/images/copy.ico</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Copy</string>
+   </property>
+  </action>
+  <action name="action_Settings">
+   <property name="icon">
+    <iconset>
+     <normaloff>resources/images/settings.ico</normaloff>resources/images/settings.ico</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Settings</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
-  <connection>
-   <sender>plainTextEdit</sender>
-   <signal>copyAvailable(bool)</signal>
-   <receiver>action_Copy</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>399</x>
-     <y>298</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>plainTextEdit</sender>
    <signal>copyAvailable(bool)</signal>
@@ -374,7 +383,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
-     <y>298</y>
+     <y>266</y>
     </hint>
    </hints>
   </connection>
@@ -407,6 +416,22 @@
     <hint type="destinationlabel">
      <x>399</x>
      <y>298</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>plainTextEdit</sender>
+   <signal>copyAvailable(bool)</signal>
+   <receiver>action_Copy</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>399</x>
+     <y>298</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
     </hint>
    </hints>
   </connection>

@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Save, SIGNAL(triggered()), this, SLOT(slotSave()), Qt::UniqueConnection);
     connect(ui->action_About_Qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()), Qt::UniqueConnection);
     connect(ui->action_About_program, SIGNAL(triggered()), this, SLOT(slotAboutProgram()), Qt::UniqueConnection);
-    connect(ui->action_Settings, SIGNAL(triggered()), settingsDialog, SLOT(show())); // adding connecting for setting with method showPreferencesDialog()
+    connect(ui->action_Settings, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
     connect(settingsDialog, SIGNAL(accepted()), this, SLOT(slotPreferencesAccepted()), Qt::UniqueConnection);
     slotNew();
 }
@@ -121,9 +121,9 @@ void MainWindow::readSettings()
 {
     QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "", qApp->applicationName());
     settings.beginGroup("SETTINGS_GROUP_VIEW");
-    bool showToolBar = settings.value("SETTING_SHOW_TOOLBAR", true).toBool();
+    bool showToolBar = settings.value("SETTING_SHOW_TOOLBAR", settingsDialog->isShowToolBar()).toBool();
     settingsDialog->setShowToolBar(showToolBar);
-    bool showStatusBar = settings.value("SETTING_SHOW_STATUS_BAR", true).toBool();
+    bool showStatusBar = settings.value("SETTING_SHOW_STATUS_BAR", settingsDialog->isShowStatusBar()).toBool();
     settingsDialog->setShowStatusBar(showStatusBar);
 }
 
@@ -143,12 +143,12 @@ void MainWindow::applySettings()
 
 void MainWindow::showPreferencesDialog()
 {
-    readSettings();
     settingsDialog->show();
 }
 
 void MainWindow::slotPreferencesAccepted()
 {
+    readSettings();
     writeSettings();
     applySettings();
 }
