@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Settings, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
     connect(settingsDialog, SIGNAL(accepted()), this, SLOT(slotPreferencesAccepted()), Qt::UniqueConnection);
     connect(ui->plainTextEdit, SIGNAL(cursorPositionChanged()), this, SLOT(slotOutNumberStringAndColumn()));
+    connect(ui->action_Exit, SIGNAL(triggered()), this, SLOT(closeEvent()), Qt::UniqueConnection);
     slotNew();
 }
 
@@ -53,6 +54,18 @@ void MainWindow::updateTitle()
 {
     QString title = QString("TextEditor - %1[*]").arg(fileName);
     setWindowTitle(title);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    writePositionSettings();
+    if (askForFileSaveAndClose())
+    {
+        event->accept();
+        return;
+    } else {
+    event->ignore();
+    }
 }
 
 void MainWindow::slotNew()
@@ -130,6 +143,7 @@ void MainWindow::readSettings()
     settingsDialog->setShowToolBar(showToolBar);
     bool showStatusBar = settings.value("SETTING_SHOW_STATUS_BAR", settingsDialog->isShowStatusBar()).toBool();
     settingsDialog->setShowStatusBar(showStatusBar);
+    settings.endGroup();
 }
 
 void MainWindow::writeSettings()
@@ -138,6 +152,7 @@ void MainWindow::writeSettings()
     settings.beginGroup("SETTINGS_GROUP_VIEW");
     settings.setValue("SETTING_SHOW_TOOLBAR", settingsDialog->isShowToolBar());
     settings.setValue("SETTING_SHOW_STATUS_BAR", settingsDialog->isShowStatusBar());
+    settings.endGroup();
 }
 
 void MainWindow::applySettings()
@@ -168,5 +183,6 @@ void MainWindow::slotOutNumberStringAndColumn()
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete settingsDialog;
 }
 

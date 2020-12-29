@@ -31,6 +31,7 @@ private slots:
     void slotNew();
     void slotOpen();
     void slotSave();
+    void closeEvent(QCloseEvent*);
     void slotAboutProgram();
     void showPreferencesDialog();
     void slotPreferencesAccepted();

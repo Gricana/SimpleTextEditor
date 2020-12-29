@@ -14,7 +14,10 @@ class SettingsDialog : public QDialog
 public:
     explicit SettingsDialog(QWidget *parent = nullptr);
     ~SettingsDialog();
-
+    bool isShowToolBar() const;
+    void setShowToolBar(bool show);
+    bool isShowStatusBar() const;
+    void setShowStatusBar(bool show);
 private:
     Ui::SettingsDialog *ui;
 };
