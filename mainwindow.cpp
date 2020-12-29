@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QTextStream>
+#include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui(new Ui::MainWindow), settingsDialog(new SettingsDialog)
@@ -42,12 +43,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_About_Qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()), Qt::UniqueConnection);
     connect(ui->action_About_program, SIGNAL(triggered()), this, SLOT(slotAboutProgram()), Qt::UniqueConnection);
     connect(ui->action_Settings, SIGNAL(triggered()), settingsDialog, SLOT(show())); // adding connecting for setting with method showPreferencesDialog()
+    connect(settingsDialog, SIGNAL(accepted()), this, SLOT(slotPreferencesAccepted()), Qt::UniqueConnection);
     slotNew();
-}
-
-void MainWindow::showPreferencesDialog()
-{
-    settingsDialog->show();
 }
 
 void MainWindow::updateTitle()
@@ -69,7 +66,7 @@ void MainWindow::slotOpen()
     QString FileName = QFileDialog::getOpenFileName(this, "Open file . . . ", QDir::homePath(), "Text files (*.txt)::All files (*.*)");
     if (fileName.isEmpty()) { return; }
     if (!askForFileSaveAndClose()){ return; }
-    QFile file(fileName);
+    QFile file(FileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         fileName = FileName;
@@ -118,6 +115,42 @@ bool MainWindow::askForFileSaveAndClose()
 void MainWindow::slotAboutProgram()
 {
     QMessageBox::about(this, tr("About"), QString("%1 v. %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
+}
+
+void MainWindow::readSettings()
+{
+    QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "", qApp->applicationName());
+    settings.beginGroup("SETTINGS_GROUP_VIEW");
+    bool showToolBar = settings.value("SETTING_SHOW_TOOLBAR", true).toBool();
+    settingsDialog->setShowToolBar(showToolBar);
+    bool showStatusBar = settings.value("SETTING_SHOW_STATUS_BAR", true).toBool();
+    settingsDialog->setShowStatusBar(showStatusBar);
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "", qApp->applicationName());
+    settings.beginGroup("SETTINGS_GROUP_VIEW");
+    settings.setValue("SETTING_SHOW_TOOLBAR", settingsDialog->isShowToolBar());
+    settings.setValue("SETTING_SHOW_STATUS_BAR", settingsDialog->isShowStatusBar());
+}
+
+void MainWindow::applySettings()
+{
+    ui->toolBar->setVisible(settingsDialog->isShowToolBar());
+    ui->statusbar->setVisible(settingsDialog->isShowStatusBar());
+}
+
+void MainWindow::showPreferencesDialog()
+{
+    readSettings();
+    settingsDialog->show();
+}
+
+void MainWindow::slotPreferencesAccepted()
+{
+    writeSettings();
+    applySettings();
 }
 
 MainWindow::~MainWindow()

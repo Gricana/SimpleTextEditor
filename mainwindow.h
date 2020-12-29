@@ -24,11 +24,15 @@ private:
     void updateTitle();
     bool askForFileSaveAndClose();
     SettingsDialog *settingsDialog;
+    void readSettings();
+    void writeSettings();
+    void applySettings();
 private slots:
     void slotNew();
     void slotOpen();
     void slotSave();
     void slotAboutProgram();
     void showPreferencesDialog();
+    void slotPreferencesAccepted();
 };
 #endif // MAINWINDOW_H
