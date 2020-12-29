@@ -58,7 +58,6 @@ void MainWindow::updateTitle()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    writePositionSettings();
     if (askForFileSaveAndClose())
     {
         event->accept();
