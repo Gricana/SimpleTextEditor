@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui->action_Date_and_time->setIcon(QIcon(":/actions/resources/images/date_time.ico"));
      ui->action_Go_to_the->setIcon(QIcon(":/actions/resources/images/go_to.ico"));
      ui->action_Font->setIcon(QIcon(":/actions/resources/images/font.ico"));
+     ui->action_Color->setIcon(QIcon(":/actions/resources/images/color.ico"));
 
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
@@ -57,10 +58,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Date_and_time, SIGNAL(triggered()), this, SLOT(slotShowDateAndTime()), Qt::UniqueConnection);
     connect(ui->action_Go_to_the, SIGNAL(triggered()), this, SLOT(slotGoToTheLine()), Qt::UniqueConnection);
     connect(ui->action_Font, SIGNAL(triggered()), this, SLOT(slotSetFont()), Qt::UniqueConnection);
+    connect(ui->action_Color, SIGNAL(triggered()), this, SLOT(slotSetColor()), Qt::UniqueConnection);
     slotNew();
     ui->plainTextEdit->setFont(QFont("Times", 14));
-
-//    QColor color = QColorDialog::getColor();
 }
 
 void MainWindow::updateTitle()
@@ -221,6 +221,12 @@ void MainWindow::slotSetFont()
     bool ok;
     QFont font = QFontDialog::getFont(&ok, QFont() , this, QString::fromUtf8("Select font"));
     if (ok) ui->plainTextEdit->setFont(font);
+}
+
+void MainWindow::slotSetColor()
+{
+    QColor color = QColorDialog::getColor(QColor(), this, QString("Select color of text"));
+    if (color.isValid()) ui->plainTextEdit->setStyleSheet(QString("color: %1").arg(color.name()));
 }
 
 MainWindow::~MainWindow()

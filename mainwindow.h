@@ -39,5 +39,6 @@ private slots:
     void slotShowDateAndTime();
     void slotGoToTheLine();
     void slotSetFont();
+    void slotSetColor();
 };
 #endif // MAINWINDOW_H

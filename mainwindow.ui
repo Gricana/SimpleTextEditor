@@ -90,6 +90,7 @@
      <string>&amp;Format</string>
     </property>
     <addaction name="action_Font"/>
+    <addaction name="action_Color"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
@@ -335,6 +336,14 @@
    </property>
    <property name="statusTip">
     <string>Choose a font</string>
+   </property>
+  </action>
+  <action name="action_Color">
+   <property name="text">
+    <string>&amp;Color</string>
+   </property>
+   <property name="statusTip">
+    <string>Choose color of text</string>
    </property>
   </action>
  </widget>
