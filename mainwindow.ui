@@ -85,8 +85,15 @@
     </property>
     <addaction name="action_Settings"/>
    </widget>
+   <widget class="QMenu" name="menu_Format">
+    <property name="title">
+     <string>&amp;Format</string>
+    </property>
+    <addaction name="action_Font"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
+   <addaction name="menu_Format"/>
    <addaction name="Settings"/>
    <addaction name="menu_About"/>
   </widget>
@@ -315,8 +322,19 @@
    <property name="text">
     <string>&amp;Go to . . .</string>
    </property>
+   <property name="statusTip">
+    <string>Go to the line</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+G</string>
+   </property>
+  </action>
+  <action name="action_Font">
+   <property name="text">
+    <string>&amp;Font</string>
+   </property>
+   <property name="statusTip">
+    <string>Choose a font</string>
    </property>
   </action>
  </widget>

@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui->action_Settings->setIcon(QIcon(":/actions/resources/images/settings.ico"));
     ui->action_Date_and_time->setIcon(QIcon(":/actions/resources/images/date_time.ico"));
      ui->action_Go_to_the->setIcon(QIcon(":/actions/resources/images/go_to.ico"));
+     ui->action_Font->setIcon(QIcon(":/actions/resources/images/font.ico"));
 
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
@@ -55,11 +56,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Exit, SIGNAL(triggered()), this, SLOT(closeEvent()), Qt::UniqueConnection);
     connect(ui->action_Date_and_time, SIGNAL(triggered()), this, SLOT(slotShowDateAndTime()), Qt::UniqueConnection);
     connect(ui->action_Go_to_the, SIGNAL(triggered()), this, SLOT(slotGoToTheLine()), Qt::UniqueConnection);
+    connect(ui->action_Font, SIGNAL(triggered()), this, SLOT(slotSetFont()), Qt::UniqueConnection);
     slotNew();
+    ui->plainTextEdit->setFont(QFont("Times", 14));
 
 //    QColor color = QColorDialog::getColor();
-//    bool ok;
-//    QFont fontDialog = QFontDialog::getFont(&ok, QFont("Times, 12") , this, QString::fromUtf8("Select font"));
 }
 
 void MainWindow::updateTitle()
@@ -213,6 +214,13 @@ void MainWindow::slotGoToTheLine()
             ui->plainTextEdit->setTextCursor(textCursor);
         }
     }
+}
+
+void MainWindow::slotSetFont()
+{
+    bool ok;
+    QFont font = QFontDialog::getFont(&ok, QFont() , this, QString::fromUtf8("Select font"));
+    if (ok) ui->plainTextEdit->setFont(font);
 }
 
 MainWindow::~MainWindow()
