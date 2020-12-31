@@ -36,5 +36,6 @@ private slots:
     void showPreferencesDialog();
     void slotPreferencesAccepted();
     void slotOutNumberStringAndColumn();
+    void slotShowDateAndTime();
 };
 #endif // MAINWINDOW_H

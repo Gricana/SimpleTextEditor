@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QSettings>
+#include <QDateTime>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui(new Ui::MainWindow), settingsDialog(new SettingsDialog)
@@ -36,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui->action_About_Qt->setIcon(QIcon(":/actions/resources/images/about_qt.ico"));
     ui->action_About_program->setIcon(QIcon(":/actions/resources/images/about_program.ico"));
     ui->action_Settings->setIcon(QIcon(":/actions/resources/images/settings.ico"));
+    ui->action_Date_and_time->setIcon(QIcon(":/actions/resources/images/date_time.ico"));
 
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
@@ -47,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(settingsDialog, SIGNAL(accepted()), this, SLOT(slotPreferencesAccepted()), Qt::UniqueConnection);
     connect(ui->plainTextEdit, SIGNAL(cursorPositionChanged()), this, SLOT(slotOutNumberStringAndColumn()));
     connect(ui->action_Exit, SIGNAL(triggered()), this, SLOT(closeEvent()), Qt::UniqueConnection);
+    connect(ui->action_Date_and_time, SIGNAL(triggered()), this, SLOT(slotShowDateAndTime()), Qt::UniqueConnection);
     slotNew();
 }
 
@@ -177,6 +180,14 @@ void MainWindow::slotOutNumberStringAndColumn()
     int line = ui->plainTextEdit->textCursor() .blockNumber() + 1;
     int column = ui->plainTextEdit->textCursor().positionInBlock() + 1;
     ui->statusbar->showMessage(QString("Line: %1  Column: %2").arg(line).arg(column));
+}
+
+void MainWindow::slotShowDateAndTime()
+{
+    QString dateAndTime = QDateTime::currentDateTime().toString(Qt::LocalDate);
+    QTextCursor textCursor = QTextCursor(ui->plainTextEdit->document());
+    textCursor.movePosition(QTextCursor::End);
+    textCursor.insertText(dateAndTime);
 }
 
 MainWindow::~MainWindow()
