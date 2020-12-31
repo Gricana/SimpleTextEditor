@@ -7,6 +7,9 @@
 #include <QTextStream>
 #include <QSettings>
 #include <QDateTime>
+#include <QColorDialog>
+#include <QFontDialog>
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui(new Ui::MainWindow), settingsDialog(new SettingsDialog)
@@ -38,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui->action_About_program->setIcon(QIcon(":/actions/resources/images/about_program.ico"));
     ui->action_Settings->setIcon(QIcon(":/actions/resources/images/settings.ico"));
     ui->action_Date_and_time->setIcon(QIcon(":/actions/resources/images/date_time.ico"));
+     ui->action_Go_to_the->setIcon(QIcon(":/actions/resources/images/go_to.ico"));
 
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
@@ -50,7 +54,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->plainTextEdit, SIGNAL(cursorPositionChanged()), this, SLOT(slotOutNumberStringAndColumn()));
     connect(ui->action_Exit, SIGNAL(triggered()), this, SLOT(closeEvent()), Qt::UniqueConnection);
     connect(ui->action_Date_and_time, SIGNAL(triggered()), this, SLOT(slotShowDateAndTime()), Qt::UniqueConnection);
+    connect(ui->action_Go_to_the, SIGNAL(triggered()), this, SLOT(slotGoToTheLine()), Qt::UniqueConnection);
     slotNew();
+
+//    QColor color = QColorDialog::getColor();
+//    bool ok;
+//    QFont fontDialog = QFontDialog::getFont(&ok, QFont("Times, 12") , this, QString::fromUtf8("Select font"));
 }
 
 void MainWindow::updateTitle()
@@ -188,6 +197,22 @@ void MainWindow::slotShowDateAndTime()
     QTextCursor textCursor = QTextCursor(ui->plainTextEdit->document());
     textCursor.movePosition(QTextCursor::End);
     textCursor.insertText(dateAndTime);
+}
+
+void MainWindow::slotGoToTheLine()
+{
+    bool ok;
+    int NumberStr = QInputDialog::getInt(this, QString::fromUtf8("Go to the line"), QString::fromUtf8("Line number"), 0, 0, 2147483647, 1, &ok);
+    if (ok)
+    {
+        if (NumberStr > ui->plainTextEdit-> document()->lineCount()) QMessageBox::information(this, "Go to the line", "The line number exceeds the total number of lines");
+        else {
+            QTextCursor textCursor = QTextCursor(ui->plainTextEdit->document());
+            textCursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, NumberStr - 1);
+            textCursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
+            ui->plainTextEdit->setTextCursor(textCursor);
+        }
+    }
 }
 
 MainWindow::~MainWindow()
