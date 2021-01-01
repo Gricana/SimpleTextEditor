@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui->action_Date_and_time->setIcon(QIcon(":/actions/resources/images/date_time.ico"));
      ui->action_Go_to_the->setIcon(QIcon(":/actions/resources/images/go_to.ico"));
      ui->action_Font->setIcon(QIcon(":/actions/resources/images/font.ico"));
-     ui->action_Color->setIcon(QIcon(":/actions/resources/images/color.ico"));
+     ui->menu_Color->setIcon(QIcon(":/actions/resources/images/color.ico"));
 
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
@@ -58,7 +58,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Date_and_time, SIGNAL(triggered()), this, SLOT(slotShowDateAndTime()), Qt::UniqueConnection);
     connect(ui->action_Go_to_the, SIGNAL(triggered()), this, SLOT(slotGoToTheLine()), Qt::UniqueConnection);
     connect(ui->action_Font, SIGNAL(triggered()), this, SLOT(slotSetFont()), Qt::UniqueConnection);
-    connect(ui->action_Color, SIGNAL(triggered()), this, SLOT(slotSetColor()), Qt::UniqueConnection);
+    connect(ui->action_Text, SIGNAL(triggered()), this, SLOT(slotSetColorText()), Qt::UniqueConnection);
+    connect(ui->action_Background, SIGNAL(triggered()), this, SLOT(slotSetColorBackground()), Qt::UniqueConnection);
     slotNew();
     ui->plainTextEdit->setFont(QFont("Times", 14));
 }
@@ -223,10 +224,27 @@ void MainWindow::slotSetFont()
     if (ok) ui->plainTextEdit->setFont(font);
 }
 
-void MainWindow::slotSetColor()
+void MainWindow::slotSetColorText()
 {
     QColor color = QColorDialog::getColor(QColor(), this, QString("Select color of text"));
-    if (color.isValid()) ui->plainTextEdit->setStyleSheet(QString("color: %1").arg(color.name()));
+    if (color.isValid())
+    {
+        QPalette p = ui->plainTextEdit->palette();
+        p.setColor(QPalette::Active, QPalette::Text, color);
+        p.setColor(QPalette::Inactive, QPalette::Text, color);
+        ui->plainTextEdit->setPalette(p);
+    }
+}
+
+void MainWindow::slotSetColorBackground()
+{
+    QColor color = QColorDialog::getColor(QColor(), this, QString::fromUtf8("Select color of baackground"));
+    if (color.isValid()) {
+        QPalette p = ui->plainTextEdit->palette();
+        p.setColor(QPalette::Inactive, QPalette::Base, color);
+        p.setColor(QPalette::Active, QPalette::Base, color);
+        ui->plainTextEdit->setPalette(p);
+    }
 }
 
 MainWindow::~MainWindow()

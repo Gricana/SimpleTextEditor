@@ -30,6 +30,9 @@
       <property name="plainText">
        <string/>
       </property>
+      <property name="tabStopWidth">
+       <number>80</number>
+      </property>
      </widget>
     </item>
    </layout>
@@ -89,8 +92,15 @@
     <property name="title">
      <string>&amp;Format</string>
     </property>
+    <widget class="QMenu" name="menu_Color">
+     <property name="title">
+      <string>&amp;Color</string>
+     </property>
+     <addaction name="action_Text"/>
+     <addaction name="action_Background"/>
+    </widget>
     <addaction name="action_Font"/>
-    <addaction name="action_Color"/>
+    <addaction name="menu_Color"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
@@ -338,12 +348,20 @@
     <string>Choose a font</string>
    </property>
   </action>
-  <action name="action_Color">
+  <action name="action_Text">
    <property name="text">
-    <string>&amp;Color</string>
+    <string>&amp;Text</string>
    </property>
    <property name="statusTip">
     <string>Choose color of text</string>
+   </property>
+  </action>
+  <action name="action_Background">
+   <property name="text">
+    <string>&amp;Background</string>
+   </property>
+   <property name="statusTip">
+    <string>Choose background color</string>
    </property>
   </action>
  </widget>
