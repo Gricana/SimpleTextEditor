@@ -28,6 +28,16 @@ void SettingsDialog::setShowStatusBar(bool show)
     ui->showStatusBarCheckBox->setChecked(show);
 }
 
+bool SettingsDialog::isThemeLight() const
+{
+    return ui->radioButton_Light->isChecked();
+}
+
+bool SettingsDialog::isThemeDark() const
+{
+    return ui->radioButton_Dark->isChecked();
+}
+
 SettingsDialog::~SettingsDialog()
 {
     delete ui;

@@ -18,6 +18,8 @@ public:
     void setShowToolBar(bool show);
     bool isShowStatusBar() const;
     void setShowStatusBar(bool show);
+    bool isThemeLight() const;
+    bool isThemeDark() const;
 private:
     Ui::SettingsDialog *ui;
 };
