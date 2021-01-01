@@ -62,6 +62,20 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Background, SIGNAL(triggered()), this, SLOT(slotSetColorBackground()), Qt::UniqueConnection);
     slotNew();
     ui->plainTextEdit->setFont(QFont("Times", 14));
+    QPalette p = palette();
+    p.setColor(QPalette::Window, QColor("#2e2f30"));
+    p.setColor(QPalette::WindowText, Qt::white);
+    p.setColor(QPalette::ButtonText, Qt::white);
+    p.setColor(QPalette::HighlightedText, QColor("#2e2f30"));
+    p.setColor(QPalette::AlternateBase, Qt::black);
+    ui->menubar->setStyleSheet(QString("background-color: #2e2f30; color: white;"));
+    ui->plainTextEdit->setStyleSheet(QString("background-color: #2e2f30; color: white;"));
+    ui->menu_File->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    ui->menu_Edit->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    setPalette(p);
 }
 
 void MainWindow::updateTitle()
