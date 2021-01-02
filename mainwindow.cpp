@@ -310,20 +310,19 @@ void MainWindow::slotZoomIn()
     zoomValue *= 2;
     ui->plainTextEdit->zoomIn(2);
     ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
+    ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
     } else {
     ui->plainTextEdit->zoomIn(0);
-    ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
     }
 }
 
 void MainWindow::slotZoomOut()
 {
-    if (zoomValue > 0) {
+    if (zoomValue / 2 > 0) {
     zoomValue /= 2;
     ui->plainTextEdit->zoomOut(2);
     ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
-    } else
-        if (zoomValue == 0) zoomValue = 1;
+    }
 }
 
 void MainWindow::slotDefaultZoom()
