@@ -183,31 +183,40 @@ void MainWindow::applySettings()
         p.setColor(QPalette::WindowText, Qt::white);
         p.setColor(QPalette::ButtonText, Qt::white);
         p.setColor(QPalette::HighlightedText, QColor("#2e2f30"));
+        this->setPalette(p);
         ui->menubar->setStyleSheet(QString("background-color: #2e2f30; color: white;"));
-        ui->plainTextEdit->
-                setStyleSheet(QString("background-color: #2e2f30; color: white;"));
+        QPalette pal = ui->plainTextEdit->palette();
+        pal.setColor(QPalette::Active, QPalette::Text, Qt::white);
+        pal.setColor(QPalette::Inactive, QPalette::Text, Qt::white);
+        pal.setColor(QPalette::Active, QPalette::Base, QColor(QString("#2e2f30")));
+        pal.setColor(QPalette::Inactive, QPalette::Base, QColor(QString("#2e2f30")));
+        ui->plainTextEdit->setPalette(pal);
         ui->menu_File->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         ui->menu_Edit->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
-        this->setPalette(p);
     }
     if (settingsDialog->isThemeLight())
     {
         QPalette p = palette();
-        p.setColor(QPalette::Window, QColor(Qt::white));
+        p.setColor(QPalette::Window, Qt::white);
         p.setColor(QPalette::WindowText, Qt::black);
         p.setColor(QPalette::ButtonText, Qt::black);
-        p.setColor(QPalette::HighlightedText, QColor(Qt::white));
+        p.setColor(QPalette::HighlightedText, Qt::white);
+        this->setPalette(p);
         ui->menubar->setStyleSheet(QString("background-color: white; color: black;"));
-        ui->plainTextEdit->setStyleSheet(QString("background-color: white; color: black;"));
+        QPalette pal = ui->plainTextEdit->palette();
+        pal.setColor(QPalette::Active, QPalette::Text, Qt::black);
+        pal.setColor(QPalette::Inactive, QPalette::Text, Qt::black);
+        pal.setColor(QPalette::Active, QPalette::Base, Qt::white);
+        pal.setColor(QPalette::Inactive, QPalette::Base, Qt::white);
+        ui->plainTextEdit->setPalette(pal);
         ui->menu_File->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         ui->menu_Edit->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
-        this->setPalette(p);
     }
 }
 
@@ -270,12 +279,13 @@ void MainWindow::slotSetColorText()
         p.setColor(QPalette::Active, QPalette::Text, color);
         p.setColor(QPalette::Inactive, QPalette::Text, color);
         ui->plainTextEdit->setPalette(p);
+        ui->plainTextEdit->setBackgroundVisible(false);
     }
 }
 
 void MainWindow::slotSetColorBackground()
 {
-    QColor color = QColorDialog::getColor(QColor(), this, QString::fromUtf8("Select color of baackground"));
+    QColor color = QColorDialog::getColor(QColor(), this, QString::fromUtf8("Select color of background"));
     if (color.isValid()) {
         QPalette p = ui->plainTextEdit->palette();
         p.setColor(QPalette::Inactive, QPalette::Base, color);
