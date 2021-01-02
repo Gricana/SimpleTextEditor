@@ -21,6 +21,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QString fileName;
+    bool isDark = true, isLight = false;
     void updateTitle();
     bool askForFileSaveAndClose();
     SettingsDialog *settingsDialog;

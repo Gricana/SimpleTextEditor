@@ -176,7 +176,7 @@ void MainWindow::applySettings()
 {
     ui->toolBar->setVisible(settingsDialog->isShowToolBar());
     ui->statusbar->setVisible(settingsDialog->isShowStatusBar());
-    if (settingsDialog->isThemeDark())
+    if (settingsDialog->isThemeDark() and isDark == true)
     {
         QPalette p = palette();
         p.setColor(QPalette::Window, QColor("#2e2f30"));
@@ -196,8 +196,9 @@ void MainWindow::applySettings()
         ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+        isDark = false; isLight = true;
     }
-    if (settingsDialog->isThemeLight())
+    if (settingsDialog->isThemeLight() and isLight == true)
     {
         QPalette p = palette();
         p.setColor(QPalette::Window, Qt::white);
@@ -217,6 +218,7 @@ void MainWindow::applySettings()
         ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+        isLight = false; isDark = true;
     }
 }
 
