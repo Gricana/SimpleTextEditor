@@ -69,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     slotNew();
     ui->plainTextEdit->setFont(QFont("Times", 14));
     font = ui->plainTextEdit->font();
+    ui->action_Go_to_the->setDisabled(true);
 }
 
 void MainWindow::updateTitle()
@@ -231,8 +232,14 @@ void MainWindow::applySettings()
         ui->menu_View->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         isLight = false; isDark = true;
     }
-    if (settingsDialog->isWordWrap()) ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
-    else ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::NoWrap);
+    if (settingsDialog->isWordWrap()) {
+        ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
+        ui->action_Go_to_the->setDisabled(true);
+    }
+    else {
+        ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::NoWrap);
+        ui->action_Go_to_the->setDisabled(false);
+    }
 }
 
 void MainWindow::showPreferencesDialog()
