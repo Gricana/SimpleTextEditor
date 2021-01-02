@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>208</width>
-    <height>198</height>
+    <width>194</width>
+    <height>227</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,6 +73,23 @@
        <widget class="QRadioButton" name="radioButton_Dark">
         <property name="text">
          <string>Dark</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Input format strings</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_word_wrap">
+        <property name="text">
+         <string>Word wrap</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

@@ -165,6 +165,7 @@ void MainWindow::readSettings()
     settingsDialog->setShowStatusBar(showStatusBar);
     bool isThemeLight = settings.value("SETTING_THEME_LIGHT", settingsDialog->isThemeLight()).toBool();
     bool isThemeDark = settings.value("SETTING_THEME_DARK", settingsDialog->isThemeDark()).toBool();
+    bool isWordWrap = settings.value("SETTING_WORD_WRAP", settingsDialog->isWordWrap()).toBool();
     settings.endGroup();
 }
 
@@ -176,6 +177,7 @@ void MainWindow::writeSettings()
     settings.setValue("SETTING_SHOW_STATUS_BAR", settingsDialog->isShowStatusBar());
     settings.setValue("SETTING_THEME_LIGHT", settingsDialog->isThemeLight());
     settings.setValue("SETTING_THEME_DARK", settingsDialog->isThemeDark());
+    settings.setValue("SETTING_WORD_WRAP", settingsDialog->isWordWrap());
     settings.endGroup();
 }
 
@@ -203,6 +205,7 @@ void MainWindow::applySettings()
         ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+        ui->menu_View->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         isDark = false; isLight = true;
     }
     if (settingsDialog->isThemeLight() and isLight == true)
@@ -225,8 +228,11 @@ void MainWindow::applySettings()
         ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+        ui->menu_View->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         isLight = false; isDark = true;
     }
+    if (settingsDialog->isWordWrap()) ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
+    else ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::NoWrap);
 }
 
 void MainWindow::showPreferencesDialog()

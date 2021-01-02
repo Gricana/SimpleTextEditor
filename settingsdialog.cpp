@@ -37,6 +37,10 @@ bool SettingsDialog::isThemeDark() const
 {
     return ui->radioButton_Dark->isChecked();
 }
+bool SettingsDialog::isWordWrap() const
+{
+    return ui->checkBox_word_wrap->isChecked();
+}
 
 SettingsDialog::~SettingsDialog()
 {

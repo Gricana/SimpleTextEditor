@@ -20,6 +20,7 @@ public:
     void setShowStatusBar(bool show);
     bool isThemeLight() const;
     bool isThemeDark() const;
+    bool isWordWrap() const;
 private:
     Ui::SettingsDialog *ui;
 };
