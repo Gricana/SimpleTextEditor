@@ -277,6 +277,7 @@ void MainWindow::slotSetFont()
     bool ok;
     font = QFontDialog::getFont(&ok, QFont() , this, QString::fromUtf8("Select font"));
     if (ok) ui->plainTextEdit->setFont(font);
+    zoomValue = 100;
 }
 
 void MainWindow::slotSetColorText()
@@ -305,17 +306,31 @@ void MainWindow::slotSetColorBackground()
 
 void MainWindow::slotZoomIn()
 {
+    if (zoomValue * 2 < 1677721600) {
+    zoomValue *= 2;
     ui->plainTextEdit->zoomIn(2);
+    ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
+    } else {
+    ui->plainTextEdit->zoomIn(0);
+    ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
+    }
 }
 
 void MainWindow::slotZoomOut()
 {
+    if (zoomValue > 0) {
+    zoomValue /= 2;
     ui->plainTextEdit->zoomOut(2);
+    ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
+    } else
+        if (zoomValue == 0) zoomValue = 1;
 }
 
 void MainWindow::slotDefaultZoom()
 {
+    zoomValue = 100;
     ui->plainTextEdit->setFont(font);
+    ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
 }
 
 MainWindow::~MainWindow()

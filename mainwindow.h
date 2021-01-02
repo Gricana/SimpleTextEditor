@@ -23,6 +23,7 @@ private:
     QString fileName;
     bool isDark = true, isLight = false;
     QFont font;
+    unsigned long int zoomValue = 100;
     void updateTitle();
     bool askForFileSaveAndClose();
     SettingsDialog *settingsDialog;
