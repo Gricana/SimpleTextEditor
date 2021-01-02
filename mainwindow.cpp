@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui->plainTextEdit->setFont(QFont("Times", 14));
     font = ui->plainTextEdit->font();
     ui->action_Go_to_the->setDisabled(true);
+    ui->plainTextEdit->setFrameShape(QFrame::NoFrame);
 }
 
 void MainWindow::updateTitle()
@@ -207,6 +208,7 @@ void MainWindow::applySettings()
         ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         ui->menu_View->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+        ui->Settings->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
         isDark = false; isLight = true;
     }
     if (settingsDialog->isThemeLight() and isLight == true)
@@ -230,6 +232,7 @@ void MainWindow::applySettings()
         ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         ui->menu_View->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+        ui->Settings->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
         isLight = false; isDark = true;
     }
     if (settingsDialog->isWordWrap()) {
