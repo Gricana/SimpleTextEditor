@@ -44,6 +44,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
      ui->action_Go_to_the->setIcon(QIcon(":/actions/resources/images/go_to.ico"));
      ui->action_Font->setIcon(QIcon(":/actions/resources/images/font.ico"));
      ui->menu_Color->setIcon(QIcon(":/actions/resources/images/color.ico"));
+     ui->action_Zoom_in->setIcon(QIcon(":/actions/resources/images/zoom_in.ico"));
+     ui->action_Zoom_out->setIcon(QIcon(":/actions/resources/images/zoom_out.ico"));
+     ui->action_Default_zoom->setIcon(QIcon(":/actions/resources/images/default_zoom.ico"));
 
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
@@ -60,8 +63,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Font, SIGNAL(triggered()), this, SLOT(slotSetFont()), Qt::UniqueConnection);
     connect(ui->action_Text, SIGNAL(triggered()), this, SLOT(slotSetColorText()), Qt::UniqueConnection);
     connect(ui->action_Background, SIGNAL(triggered()), this, SLOT(slotSetColorBackground()), Qt::UniqueConnection);
+    connect(ui->action_Zoom_in, SIGNAL(triggered()), this, SLOT(slotZoomIn()));
+    connect(ui->action_Zoom_out, SIGNAL(triggered()), this, SLOT(slotZoomOut()));
+    connect(ui->action_Default_zoom, SIGNAL(triggered()), this, SLOT(slotDefaultZoom()));
     slotNew();
     ui->plainTextEdit->setFont(QFont("Times", 14));
+    font = ui->plainTextEdit->font();
 }
 
 void MainWindow::updateTitle()
@@ -268,7 +275,7 @@ void MainWindow::slotGoToTheLine()
 void MainWindow::slotSetFont()
 {
     bool ok;
-    QFont font = QFontDialog::getFont(&ok, QFont() , this, QString::fromUtf8("Select font"));
+    font = QFontDialog::getFont(&ok, QFont() , this, QString::fromUtf8("Select font"));
     if (ok) ui->plainTextEdit->setFont(font);
 }
 
@@ -294,6 +301,21 @@ void MainWindow::slotSetColorBackground()
         p.setColor(QPalette::Active, QPalette::Base, color);
         ui->plainTextEdit->setPalette(p);
     }
+}
+
+void MainWindow::slotZoomIn()
+{
+    ui->plainTextEdit->zoomIn(2);
+}
+
+void MainWindow::slotZoomOut()
+{
+    ui->plainTextEdit->zoomOut(2);
+}
+
+void MainWindow::slotDefaultZoom()
+{
+    ui->plainTextEdit->setFont(font);
 }
 
 MainWindow::~MainWindow()

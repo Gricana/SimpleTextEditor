@@ -22,6 +22,7 @@ private:
     Ui::MainWindow *ui;
     QString fileName;
     bool isDark = true, isLight = false;
+    QFont font;
     void updateTitle();
     bool askForFileSaveAndClose();
     SettingsDialog *settingsDialog;
@@ -42,5 +43,8 @@ private slots:
     void slotSetFont();
     void slotSetColorText();
     void slotSetColorBackground();
+    void slotZoomIn();
+    void slotZoomOut();
+    void slotDefaultZoom();
 };
 #endif // MAINWINDOW_H
