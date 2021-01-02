@@ -43,7 +43,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -102,9 +102,18 @@
     <addaction name="action_Font"/>
     <addaction name="menu_Color"/>
    </widget>
+   <widget class="QMenu" name="menu_View">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="action_Zoom_in"/>
+    <addaction name="action_Zoom_out"/>
+    <addaction name="action_Default_zoom"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
    <addaction name="menu_Format"/>
+   <addaction name="menu_View"/>
    <addaction name="Settings"/>
    <addaction name="menu_About"/>
   </widget>
@@ -362,6 +371,39 @@
    </property>
    <property name="statusTip">
     <string>Choose background color</string>
+   </property>
+  </action>
+  <action name="action_Zoom_in">
+   <property name="text">
+    <string>&amp;Zoom in</string>
+   </property>
+   <property name="statusTip">
+    <string>Zoom in on the text</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
+   </property>
+  </action>
+  <action name="action_Zoom_out">
+   <property name="text">
+    <string>&amp;Zoom out</string>
+   </property>
+   <property name="statusTip">
+    <string>Zoom out on the text</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="action_Default_zoom">
+   <property name="text">
+    <string>&amp;Default zoom</string>
+   </property>
+   <property name="statusTip">
+    <string>Make the default text zoom</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+0</string>
    </property>
   </action>
  </widget>
