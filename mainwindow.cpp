@@ -10,6 +10,7 @@
 #include <QColorDialog>
 #include <QFontDialog>
 #include <QInputDialog>
+#include <QDesktopWidget>
 #include <QPainter>
 #ifndef QT_NO_PRINTER
 #include <QPrintDialog>
@@ -220,9 +221,6 @@ void MainWindow::readSettings()
     settingsDialog->setShowToolBar(showToolBar);
     bool showStatusBar = settings.value("SETTING_SHOW_STATUS_BAR", settingsDialog->isShowStatusBar()).toBool();
     settingsDialog->setShowStatusBar(showStatusBar);
-    bool isThemeLight = settings.value("SETTING_THEME_LIGHT", settingsDialog->isThemeLight()).toBool();
-    bool isThemeDark = settings.value("SETTING_THEME_DARK", settingsDialog->isThemeDark()).toBool();
-    bool isWordWrap = settings.value("SETTING_WORD_WRAP", settingsDialog->isWordWrap()).toBool();
     settings.endGroup();
 }
 
@@ -366,24 +364,17 @@ void MainWindow::slotDefaultZoom()
 
 void MainWindow::slotPreview()
 {
-#ifndef QT_NO_PRINTER
     QPrinter printer(QPrinter::ScreenResolution);
     printer.setPageSize(QPrinter::A4);
     printer.setOrientation(QPrinter::Landscape);
-    printer.setPageOrder(QPrinter::FirstPageFirst);
     QPrintPreviewDialog preview(&printer, this);
-    connect(&preview, SIGNAL(paintRequested(QPrinter*)), &preview, SLOT(printPreview(Qprinter*)));
+    connect(&preview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(printPreview(QPrinter*)));
     preview.exec();
-#endif
 }
 
 void MainWindow::printPreview(QPrinter *printer)
 {
-    QPainter painter(printer);
-    painter.setWindow(ui->plainTextEdit->rect());
-    this->render(&painter);
-    painter.restore();
-//    ui->plainTextEdit->print(printer);
+    ui->plainTextEdit->print(printer);
 }
 
 void MainWindow::slotPrint()

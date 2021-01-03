@@ -33,7 +33,6 @@ private:
     void readSettings();
     void writeSettings();
     void applySettings();
-    void printPreview(QPrinter*);
 private slots:
     void slotNew();
     void slotOpen();
@@ -53,5 +52,6 @@ private slots:
     void slotZoomIn();
     void slotZoomOut();
     void slotDefaultZoom();
+    void printPreview(QPrinter*);
 };
 #endif // MAINWINDOW_H
