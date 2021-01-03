@@ -24,6 +24,8 @@ private:
     bool isDark = true, isLight = false;
     QFont font;
     unsigned long int zoomValue = 100;
+    void lightTheme();
+    void darkTheme();
     void updateTitle();
     bool askForFileSaveAndClose();
     SettingsDialog *settingsDialog;

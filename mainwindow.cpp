@@ -71,6 +71,53 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     font = ui->plainTextEdit->font();
     ui->action_Go_to_the->setDisabled(true);
     ui->plainTextEdit->setFrameShape(QFrame::NoFrame);
+    lightTheme();
+}
+
+void MainWindow::lightTheme()
+{
+    QPalette p = palette();
+    p.setColor(QPalette::Window, Qt::white);
+    p.setColor(QPalette::WindowText, Qt::black);
+    p.setColor(QPalette::ButtonText, Qt::black);
+    this->setPalette(p);
+    ui->menubar->setStyleSheet(QString("background-color: white; color: black;"));
+    QPalette pal = ui->plainTextEdit->palette();
+    pal.setColor(QPalette::Active, QPalette::Text, Qt::black);
+    pal.setColor(QPalette::Inactive, QPalette::Text, Qt::black);
+    pal.setColor(QPalette::Active, QPalette::Base, Qt::white);
+    pal.setColor(QPalette::Inactive, QPalette::Base, Qt::white);
+    ui->plainTextEdit->setPalette(pal);
+    ui->menu_File->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+    ui->menu_Edit->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+    ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+    ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+    ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+    ui->menu_View->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+    ui->Settings->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+}
+
+void MainWindow::darkTheme()
+{
+    QPalette p = palette();
+    p.setColor(QPalette::Window, QColor("#2e2f30"));
+    p.setColor(QPalette::WindowText, Qt::white);
+    p.setColor(QPalette::ButtonText, Qt::white);
+    this->setPalette(p);
+    ui->menubar->setStyleSheet(QString("background-color: #2e2f30; color: white;"));
+    QPalette pal = ui->plainTextEdit->palette();
+    pal.setColor(QPalette::Active, QPalette::Text, Qt::white);
+    pal.setColor(QPalette::Inactive, QPalette::Text, Qt::white);
+    pal.setColor(QPalette::Active, QPalette::Base, QColor(QString("#2e2f30")));
+    pal.setColor(QPalette::Inactive, QPalette::Base, QColor(QString("#2e2f30")));
+    ui->plainTextEdit->setPalette(pal);
+    ui->menu_File->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    ui->menu_Edit->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    ui->menu_View->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    ui->Settings->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
 }
 
 void MainWindow::updateTitle()
@@ -189,50 +236,12 @@ void MainWindow::applySettings()
     ui->statusbar->setVisible(settingsDialog->isShowStatusBar());
     if (settingsDialog->isThemeDark() and isDark == true)
     {
-        QPalette p = palette();
-        p.setColor(QPalette::Window, QColor("#2e2f30"));
-        p.setColor(QPalette::WindowText, Qt::white);
-        p.setColor(QPalette::ButtonText, Qt::white);
-        p.setColor(QPalette::HighlightedText, QColor("#2e2f30"));
-        this->setPalette(p);
-        ui->menubar->setStyleSheet(QString("background-color: #2e2f30; color: white;"));
-        QPalette pal = ui->plainTextEdit->palette();
-        pal.setColor(QPalette::Active, QPalette::Text, Qt::white);
-        pal.setColor(QPalette::Inactive, QPalette::Text, Qt::white);
-        pal.setColor(QPalette::Active, QPalette::Base, QColor(QString("#2e2f30")));
-        pal.setColor(QPalette::Inactive, QPalette::Base, QColor(QString("#2e2f30")));
-        ui->plainTextEdit->setPalette(pal);
-        ui->menu_File->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
-        ui->menu_Edit->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
-        ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
-        ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
-        ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
-        ui->menu_View->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
-        ui->Settings->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+        darkTheme();
         isDark = false; isLight = true;
     }
     if (settingsDialog->isThemeLight() and isLight == true)
     {
-        QPalette p = palette();
-        p.setColor(QPalette::Window, Qt::white);
-        p.setColor(QPalette::WindowText, Qt::black);
-        p.setColor(QPalette::ButtonText, Qt::black);
-        p.setColor(QPalette::HighlightedText, Qt::white);
-        this->setPalette(p);
-        ui->menubar->setStyleSheet(QString("background-color: white; color: black;"));
-        QPalette pal = ui->plainTextEdit->palette();
-        pal.setColor(QPalette::Active, QPalette::Text, Qt::black);
-        pal.setColor(QPalette::Inactive, QPalette::Text, Qt::black);
-        pal.setColor(QPalette::Active, QPalette::Base, Qt::white);
-        pal.setColor(QPalette::Inactive, QPalette::Base, Qt::white);
-        ui->plainTextEdit->setPalette(pal);
-        ui->menu_File->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
-        ui->menu_Edit->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
-        ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
-        ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
-        ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
-        ui->menu_View->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
-        ui->Settings->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+        lightTheme();
         isLight = false; isDark = true;
     }
     if (settingsDialog->isWordWrap()) {
