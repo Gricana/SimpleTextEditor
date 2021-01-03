@@ -76,15 +76,18 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui->plainTextEdit->setFont(QFont("Times", 14));
     font = ui->plainTextEdit->font();
     ui->plainTextEdit->setFrameShape(QFrame::NoFrame);
-    saveTheme();
+    saveInputSettings();
     readSettings();
 }
 
-void MainWindow::saveTheme()
+void MainWindow::saveInputSettings()
 {
     settings.beginGroup("/SETTINGS_GROUP_VIEW");
     if (settings.value("/SETTING_LIGHT_THEME", settingsDialog->isThemeLight()).toBool()) { isLight = true, isDark = false; }
     if (settings.value("/SETTING_DARK_THEME", settingsDialog->isThemeDark()).toBool()) { isLight = false, isDark = true; }
+    app_counter = settings.value("/COUNTER_APP", 1).toInt();
+    QString str = tr("This program has been started ") + QString().setNum(app_counter++) + tr(" times");
+    ui->statusbar->showMessage(str, 3000);
     settings.endGroup();
 }
 
@@ -223,9 +226,6 @@ void MainWindow::readSettings()
     settings.beginGroup("/SETTINGS_GROUP_VIEW");
     int app_width = settings.value("/WIDTH", width()).toInt();
     int app_height = settings.value("/HEIGHT", height()).toInt();
-    app_counter = settings.value("/COUNTER", 1).toInt();
-    QString str = tr("This program has been started ") + QString().setNum(app_counter++) + tr(" times");
-    ui->statusbar->showMessage(str, 3000);
     this->resize(app_width, app_height);
 
     bool showToolBar = settings.value("/SETTING_SHOW_TOOLBAR", settingsDialog->isShowToolBar()).toBool();
@@ -268,7 +268,7 @@ void MainWindow::writeSettings()
     settings.beginGroup("/SETTINGS_GROUP_VIEW");
     settings.setValue("/WIDTH", width());
     settings.setValue("/HEIGHT", height());
-    settings.setValue("/COUNTER", app_counter);
+    settings.setValue("/COUNTER_APP", app_counter);
     settings.setValue("/SETTING_SHOW_TOOLBAR", settingsDialog->isShowToolBar());
     settings.setValue("/SETTING_SHOW_STATUS_BAR", settingsDialog->isShowStatusBar());
     settings.setValue("/SETTING_LIGHT_THEME", settingsDialog->isThemeLight());

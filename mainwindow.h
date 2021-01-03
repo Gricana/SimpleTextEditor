@@ -35,7 +35,7 @@ private:
     QSettings settings;
     void readSettings();
     void writeSettings();
-    void saveTheme();
+    void saveInputSettings();
 private slots:
     void slotNew();
     void slotOpen();
