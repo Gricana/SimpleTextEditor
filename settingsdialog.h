@@ -21,6 +21,9 @@ public:
     bool isThemeLight() const;
     bool isThemeDark() const;
     bool isWordWrap() const;
+    void setLightTheme(bool check);
+    void setDarkTheme(bool check);
+    void setWordWrap(bool check);
 private:
     Ui::SettingsDialog *ui;
 };

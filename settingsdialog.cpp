@@ -42,6 +42,21 @@ bool SettingsDialog::isWordWrap() const
     return ui->checkBox_word_wrap->isChecked();
 }
 
+void SettingsDialog::setLightTheme(bool check)
+{
+    ui->radioButton_Light->setChecked(check);
+}
+
+void SettingsDialog::setDarkTheme(bool check)
+{
+    ui->radioButton_Dark->setChecked(check);
+}
+
+void SettingsDialog::setWordWrap(bool check)
+{
+    ui->checkBox_word_wrap->setChecked(check);
+}
+
 SettingsDialog::~SettingsDialog()
 {
     delete ui;

@@ -5,20 +5,17 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QTextStream>
-#include <QSettings>
 #include <QDateTime>
 #include <QColorDialog>
 #include <QFontDialog>
 #include <QInputDialog>
-#include <QDesktopWidget>
-#include <QPainter>
 #ifndef QT_NO_PRINTER
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #endif
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
-    ui(new Ui::MainWindow), settingsDialog(new SettingsDialog)
+    ui(new Ui::MainWindow), settingsDialog(new SettingsDialog), settings(QSettings::NativeFormat, QSettings::UserScope, "IT", qApp->applicationName())
 {
     ui->setupUi(this);
     setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
@@ -78,9 +75,17 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     slotNew();
     ui->plainTextEdit->setFont(QFont("Times", 14));
     font = ui->plainTextEdit->font();
-    ui->action_Go_to_the->setDisabled(true);
     ui->plainTextEdit->setFrameShape(QFrame::NoFrame);
-    lightTheme();
+    saveTheme();
+    readSettings();
+}
+
+void MainWindow::saveTheme()
+{
+    settings.beginGroup("/SETTINGS_GROUP_VIEW");
+    if (settings.value("/SETTING_LIGHT_THEME", settingsDialog->isThemeLight()).toBool()) { isLight = true, isDark = false; }
+    if (settings.value("/SETTING_DARK_THEME", settingsDialog->isThemeDark()).toBool()) { isLight = false, isDark = true; }
+    settings.endGroup();
 }
 
 void MainWindow::lightTheme()
@@ -215,42 +220,39 @@ void MainWindow::slotAboutProgram()
 
 void MainWindow::readSettings()
 {
-    QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "", qApp->applicationName());
-    settings.beginGroup("SETTINGS_GROUP_VIEW");
-    bool showToolBar = settings.value("SETTING_SHOW_TOOLBAR", settingsDialog->isShowToolBar()).toBool();
+    settings.beginGroup("/SETTINGS_GROUP_VIEW");
+    int app_width = settings.value("/WIDTH", width()).toInt();
+    int app_height = settings.value("/HEIGHT", height()).toInt();
+    app_counter = settings.value("/COUNTER", 1).toInt();
+    QString str = tr("This program has been started ") + QString().setNum(app_counter++) + tr(" times");
+    ui->statusbar->showMessage(str, 3000);
+    this->resize(app_width, app_height);
+
+    bool showToolBar = settings.value("/SETTING_SHOW_TOOLBAR", settingsDialog->isShowToolBar()).toBool();
     settingsDialog->setShowToolBar(showToolBar);
-    bool showStatusBar = settings.value("SETTING_SHOW_STATUS_BAR", settingsDialog->isShowStatusBar()).toBool();
+    bool showStatusBar = settings.value("/SETTING_SHOW_STATUS_BAR", settingsDialog->isShowStatusBar()).toBool();
     settingsDialog->setShowStatusBar(showStatusBar);
-    settings.endGroup();
-}
+    ui->toolBar->setVisible(showToolBar);
+    ui->statusbar->setVisible(showStatusBar);
 
-void MainWindow::writeSettings()
-{
-    QSettings settings(QSettings::NativeFormat, QSettings::UserScope, "", qApp->applicationName());
-    settings.beginGroup("SETTINGS_GROUP_VIEW");
-    settings.setValue("SETTING_SHOW_TOOLBAR", settingsDialog->isShowToolBar());
-    settings.setValue("SETTING_SHOW_STATUS_BAR", settingsDialog->isShowStatusBar());
-    settings.setValue("SETTING_THEME_LIGHT", settingsDialog->isThemeLight());
-    settings.setValue("SETTING_THEME_DARK", settingsDialog->isThemeDark());
-    settings.setValue("SETTING_WORD_WRAP", settingsDialog->isWordWrap());
-    settings.endGroup();
-}
-
-void MainWindow::applySettings()
-{
-    ui->toolBar->setVisible(settingsDialog->isShowToolBar());
-    ui->statusbar->setVisible(settingsDialog->isShowStatusBar());
-    if (settingsDialog->isThemeDark() and isDark == true)
+    bool isLightTheme = settings.value("/SETTING_LIGHT_THEME", settingsDialog->isThemeLight()).toBool();
+    settingsDialog->setLightTheme(isLightTheme);
+    bool isDarkTheme = settings.value("/SETTING_DARK_THEME", settingsDialog->isThemeDark()).toBool();
+    settingsDialog->setDarkTheme(isDarkTheme);
+    if (isDarkTheme and isDark == true)
     {
         darkTheme();
         isDark = false; isLight = true;
     }
-    if (settingsDialog->isThemeLight() and isLight == true)
+    if (isLightTheme and isLight == true)
     {
         lightTheme();
         isLight = false; isDark = true;
     }
-    if (settingsDialog->isWordWrap()) {
+
+    bool isWordWrap = settings.value("/SETTING_WORD_WRAP", settingsDialog->isWordWrap()).toBool();
+    settingsDialog->setWordWrap(isWordWrap);
+    if (isWordWrap) {
         ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
         ui->action_Go_to_the->setDisabled(true);
     }
@@ -258,6 +260,21 @@ void MainWindow::applySettings()
         ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::NoWrap);
         ui->action_Go_to_the->setDisabled(false);
     }
+    settings.endGroup();
+}
+
+void MainWindow::writeSettings()
+{
+    settings.beginGroup("/SETTINGS_GROUP_VIEW");
+    settings.setValue("/WIDTH", width());
+    settings.setValue("/HEIGHT", height());
+    settings.setValue("/COUNTER", app_counter);
+    settings.setValue("/SETTING_SHOW_TOOLBAR", settingsDialog->isShowToolBar());
+    settings.setValue("/SETTING_SHOW_STATUS_BAR", settingsDialog->isShowStatusBar());
+    settings.setValue("/SETTING_LIGHT_THEME", settingsDialog->isThemeLight());
+    settings.setValue("/SETTING_DARK_THEME", settingsDialog->isThemeDark());
+    settings.setValue("/SETTING_WORD_WRAP", settingsDialog->isWordWrap());
+    settings.endGroup();
 }
 
 void MainWindow::showPreferencesDialog()
@@ -267,9 +284,8 @@ void MainWindow::showPreferencesDialog()
 
 void MainWindow::slotPreferencesAccepted()
 {
-    readSettings();
     writeSettings();
-    applySettings();
+    readSettings();
 }
 
 void MainWindow::slotOutNumberStringAndColumn()
@@ -390,6 +406,7 @@ void MainWindow::slotPrint()
 
 MainWindow::~MainWindow()
 {
+    writeSettings();
     delete ui;
     delete settingsDialog;
 }

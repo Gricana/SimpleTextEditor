@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPrinter>
+#include <QSettings>
 class SettingsDialog;
 
 QT_BEGIN_NAMESPACE
@@ -22,17 +23,19 @@ public:
 private:
     Ui::MainWindow *ui;
     QString fileName;
-    bool isDark = true, isLight = false;
+    int app_counter;
     QFont font;
+    bool isLight, isDark;
     unsigned long int zoomValue = 100;
     void lightTheme();
     void darkTheme();
     void updateTitle();
     bool askForFileSaveAndClose();
     SettingsDialog *settingsDialog;
+    QSettings settings;
     void readSettings();
     void writeSettings();
-    void applySettings();
+    void saveTheme();
 private slots:
     void slotNew();
     void slotOpen();
