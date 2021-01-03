@@ -150,7 +150,7 @@ void MainWindow::slotNew()
 
 void MainWindow::slotOpen()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, "Open file . . . ", QDir::homePath(), "Text files (*.txt)::All files (*.*)");
+    QString FileName = QFileDialog::getOpenFileName(this, tr("Open file . . . "), QDir::homePath(), tr("Text files (*.txt)::All files (*.*)"));
     if (fileName.isEmpty()) { return; }
     if (!askForFileSaveAndClose()){ return; }
     QFile file(FileName);
@@ -163,7 +163,7 @@ void MainWindow::slotOpen()
         updateTitle();
     }
     else {
-        QMessageBox::warning(this, "Error", QString("Could not open file %1 for reading").arg(file.fileName()), QMessageBox::Ok);
+        QMessageBox::warning(this, tr("Error"), QString(tr("Could not open file %1 for reading")).arg(file.fileName()), QMessageBox::Ok);
     }
 }
 
@@ -182,7 +182,7 @@ void MainWindow::slotSave()
         setWindowModified(false);
     }
     else {
-        QMessageBox::warning(this, "Error", QString("Could not open file %1 for writing").arg(file.fileName()), QMessageBox::Ok);
+        QMessageBox::warning(this, tr("Error"), QString(tr("Could not open file %1 for writing")).arg(file.fileName()), QMessageBox::Ok);
     }
 }
 
@@ -201,7 +201,7 @@ bool MainWindow::askForFileSaveAndClose()
 
 void MainWindow::slotAboutProgram()
 {
-    QMessageBox::about(this, tr("About"), QString("%1 v. %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
+    QMessageBox::about(this, tr("About app"), QString("%1 v. %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()));
 }
 
 void MainWindow::readSettings()
@@ -270,7 +270,7 @@ void MainWindow::slotOutNumberStringAndColumn()
 {
     int line = ui->plainTextEdit->textCursor() .blockNumber() + 1;
     int column = ui->plainTextEdit->textCursor().positionInBlock() + 1;
-    ui->statusbar->showMessage(QString("Line: %1  Column: %2").arg(line).arg(column));
+    ui->statusbar->showMessage(QString(tr("Line: %1  Column: %2")).arg(line).arg(column));
 }
 
 void MainWindow::slotShowDateAndTime()
@@ -284,10 +284,10 @@ void MainWindow::slotShowDateAndTime()
 void MainWindow::slotGoToTheLine()
 {
     bool ok;
-    int NumberStr = QInputDialog::getInt(this, QString::fromUtf8("Go to the line"), QString::fromUtf8("Line number"), 0, 0, 2147483647, 1, &ok);
+    int NumberStr = QInputDialog::getInt(this, QString(tr("Go to the line")), QString(tr("Line number")), 0, 0, 2147483647, 1, &ok);
     if (ok)
     {
-        if (NumberStr > ui->plainTextEdit-> document()->lineCount()) QMessageBox::information(this, "Go to the line", "The line number exceeds the total number of lines");
+        if (NumberStr > ui->plainTextEdit-> document()->lineCount()) QMessageBox::information(this, tr("Go to the line"), tr("The line number exceeds the total number of lines"));
         else {
             QTextCursor textCursor = QTextCursor(ui->plainTextEdit->document());
             textCursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, NumberStr - 1);
@@ -300,14 +300,14 @@ void MainWindow::slotGoToTheLine()
 void MainWindow::slotSetFont()
 {
     bool ok;
-    font = QFontDialog::getFont(&ok, QFont() , this, QString::fromUtf8("Select font"));
+    font = QFontDialog::getFont(&ok, QFont() , this, QString(tr("Select font")));
     if (ok) ui->plainTextEdit->setFont(font);
     zoomValue = 100;
 }
 
 void MainWindow::slotSetColorText()
 {
-    QColor color = QColorDialog::getColor(QColor(), this, QString("Select color of text"));
+    QColor color = QColorDialog::getColor(QColor(), this, QString(tr("Select color of text")));
     if (color.isValid())
     {
         QPalette p = ui->plainTextEdit->palette();
@@ -320,7 +320,7 @@ void MainWindow::slotSetColorText()
 
 void MainWindow::slotSetColorBackground()
 {
-    QColor color = QColorDialog::getColor(QColor(), this, QString::fromUtf8("Select color of background"));
+    QColor color = QColorDialog::getColor(QColor(), this, QString(tr("Select color of background")));
     if (color.isValid()) {
         QPalette p = ui->plainTextEdit->palette();
         p.setColor(QPalette::Inactive, QPalette::Base, color);
@@ -334,11 +334,9 @@ void MainWindow::slotZoomIn()
     if (zoomValue * 2 < 1677721600) {
     zoomValue *= 2;
     ui->plainTextEdit->zoomIn(2);
-    ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
-    ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
-    } else {
-    ui->plainTextEdit->zoomIn(0);
-    }
+    ui->statusbar->showMessage(QString(tr("Zoom: %1%")).arg(zoomValue));
+    } else
+        ui->statusbar->showMessage(QString(tr("Zoom: %1%")).arg(zoomValue));
 }
 
 void MainWindow::slotZoomOut()
@@ -346,15 +344,16 @@ void MainWindow::slotZoomOut()
     if (zoomValue / 2 > 0) {
     zoomValue /= 2;
     ui->plainTextEdit->zoomOut(2);
-    ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
-    }
+    ui->statusbar->showMessage(QString(tr("Zoom: %1%")).arg(zoomValue));
+    } else
+        ui->statusbar->showMessage(QString(tr("Zoom: %1%")).arg(zoomValue));
 }
 
 void MainWindow::slotDefaultZoom()
 {
     zoomValue = 100;
     ui->plainTextEdit->setFont(font);
-    ui->statusbar->showMessage(QString("Zoom: %1%").arg(zoomValue));
+    ui->statusbar->showMessage(QString(tr("Zoom: %1%")).arg(zoomValue));
 }
 
 MainWindow::~MainWindow()
