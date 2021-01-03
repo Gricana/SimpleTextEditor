@@ -2,12 +2,15 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>485</height>
+    <height>510</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,12 +20,21 @@
    <iconset>
     <normaloff>resources/images/text_editor_icon.ico</normaloff>resources/images/text_editor_icon.ico</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QPlainTextEdit" name="plainTextEdit">
       <property name="statusTip">
        <string>Enter the text</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
       </property>
       <property name="lineWrapMode">
        <enum>QPlainTextEdit::WidgetWidth</enum>
@@ -56,6 +68,9 @@
     <addaction name="action_New"/>
     <addaction name="action_Open"/>
     <addaction name="action_Save"/>
+    <addaction name="separator"/>
+    <addaction name="action_Preview"/>
+    <addaction name="action_Print"/>
     <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>
@@ -101,6 +116,7 @@
     </widget>
     <addaction name="action_Font"/>
     <addaction name="menu_Color"/>
+    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menu_View">
     <property name="title">
@@ -404,6 +420,38 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+0</string>
+   </property>
+  </action>
+  <action name="action_Word_wrap">
+   <property name="text">
+    <string>&amp;Word wrap</string>
+   </property>
+  </action>
+  <action name="action_Label">
+   <property name="text">
+    <string>&amp;Label</string>
+   </property>
+  </action>
+  <action name="action_Preview">
+   <property name="text">
+    <string>&amp;Preview</string>
+   </property>
+   <property name="statusTip">
+    <string>Preview the current text file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+P</string>
+   </property>
+  </action>
+  <action name="action_Print">
+   <property name="text">
+    <string>&amp;Print</string>
+   </property>
+   <property name="statusTip">
+    <string>Print the current text file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>
