@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPrinter>
 class SettingsDialog;
 
 QT_BEGIN_NAMESPACE
@@ -32,10 +33,13 @@ private:
     void readSettings();
     void writeSettings();
     void applySettings();
+    void printPreview(QPrinter*);
 private slots:
     void slotNew();
     void slotOpen();
     void slotSave();
+    void slotPreview();
+    void slotPrint();
     void closeEvent(QCloseEvent*);
     void slotAboutProgram();
     void showPreferencesDialog();

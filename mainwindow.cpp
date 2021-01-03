@@ -10,6 +10,11 @@
 #include <QColorDialog>
 #include <QFontDialog>
 #include <QInputDialog>
+#include <QPainter>
+#ifndef QT_NO_PRINTER
+#include <QPrintDialog>
+#include <QPrintPreviewDialog>
+#endif
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui(new Ui::MainWindow), settingsDialog(new SettingsDialog)
@@ -47,8 +52,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
      ui->action_Zoom_in->setIcon(QIcon(":/actions/resources/images/zoom_in.ico"));
      ui->action_Zoom_out->setIcon(QIcon(":/actions/resources/images/zoom_out.ico"));
      ui->action_Default_zoom->setIcon(QIcon(":/actions/resources/images/default_zoom.ico"));
+     ui->action_Preview->setIcon(QIcon(":/actions/resources/images/preview.ico"));
+     ui->action_Print->setIcon(QIcon(":/actions/resources/images/print.ico"));
 
-    connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_Open, SIGNAL(triggered()), this, SLOT(slotOpen()), Qt::UniqueConnection);
     connect(ui->action_Save, SIGNAL(triggered()), this, SLOT(slotSave()), Qt::UniqueConnection);
@@ -66,6 +72,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Zoom_in, SIGNAL(triggered()), this, SLOT(slotZoomIn()));
     connect(ui->action_Zoom_out, SIGNAL(triggered()), this, SLOT(slotZoomOut()));
     connect(ui->action_Default_zoom, SIGNAL(triggered()), this, SLOT(slotDefaultZoom()));
+    connect(ui->action_Preview, SIGNAL(triggered()), this, SLOT(slotPreview()), Qt::UniqueConnection);
+    connect(ui->action_Print, SIGNAL(triggered()), this, SLOT(slotPrint()), Qt::UniqueConnection);
     slotNew();
     ui->plainTextEdit->setFont(QFont("Times", 14));
     font = ui->plainTextEdit->font();
@@ -141,7 +149,7 @@ void MainWindow::slotNew()
 {
     if (askForFileSaveAndClose())
     {
-        fileName = "UntitledFile";
+        fileName = "Untitled";
         ui->plainTextEdit->clear();
         setWindowModified(false);
         updateTitle();
@@ -354,6 +362,39 @@ void MainWindow::slotDefaultZoom()
     zoomValue = 100;
     ui->plainTextEdit->setFont(font);
     ui->statusbar->showMessage(QString(tr("Zoom: %1%")).arg(zoomValue));
+}
+
+void MainWindow::slotPreview()
+{
+#ifndef QT_NO_PRINTER
+    QPrinter printer(QPrinter::ScreenResolution);
+    printer.setPageSize(QPrinter::A4);
+    printer.setOrientation(QPrinter::Landscape);
+    printer.setPageOrder(QPrinter::FirstPageFirst);
+    QPrintPreviewDialog preview(&printer, this);
+    connect(&preview, SIGNAL(paintRequested(QPrinter*)), &preview, SLOT(printPreview(Qprinter*)));
+    preview.exec();
+#endif
+}
+
+void MainWindow::printPreview(QPrinter *printer)
+{
+    QPainter painter(printer);
+    painter.setWindow(ui->plainTextEdit->rect());
+    this->render(&painter);
+    painter.restore();
+//    ui->plainTextEdit->print(printer);
+}
+
+void MainWindow::slotPrint()
+{
+    QPrinter printer(QPrinter::HighResolution);
+    QPrintDialog *dialog = new QPrintDialog(&printer, this);
+    if (ui->plainTextEdit->textCursor().hasSelection())
+        dialog->addEnabledOption(QAbstractPrintDialog::PrintSelection);
+    dialog->setWindowTitle(tr("Print document"));
+    if (dialog->exec() == QDialog::Accepted) ui->plainTextEdit->print(&printer);
+    delete dialog;
 }
 
 MainWindow::~MainWindow()
