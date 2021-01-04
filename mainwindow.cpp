@@ -88,6 +88,9 @@ void MainWindow::saveInputSettings()
     app_counter = settings.value("/COUNTER_APP", 1).toInt();
     QString str = tr("This program has been started ") + QString().setNum(app_counter++) + tr(" times");
     ui->statusbar->showMessage(str, 3000);
+    int app_width = settings.value("/WIDTH", width()).toInt();
+    int app_height = settings.value("/HEIGHT", height()).toInt();
+    this->resize(app_width, app_height);
     settings.endGroup();
 }
 
@@ -224,9 +227,6 @@ void MainWindow::slotAboutProgram()
 void MainWindow::readSettings()
 {
     settings.beginGroup("/SETTINGS_GROUP_VIEW");
-    int app_width = settings.value("/WIDTH", width()).toInt();
-    int app_height = settings.value("/HEIGHT", height()).toInt();
-    this->resize(app_width, app_height);
 
     bool showToolBar = settings.value("/SETTING_SHOW_TOOLBAR", settingsDialog->isShowToolBar()).toBool();
     settingsDialog->setShowToolBar(showToolBar);
