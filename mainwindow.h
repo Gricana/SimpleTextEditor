@@ -5,6 +5,8 @@
 #include <QPrinter>
 #include <QSettings>
 class SettingsDialog;
+class SearchDialog;
+class SyntaxHighlighter;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,6 +24,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    SyntaxHighlighter *highlighter;
     QString fileName;
     int app_counter;
     QFont font;
@@ -32,6 +35,7 @@ private:
     void updateTitle();
     bool askForFileSaveAndClose();
     SettingsDialog *settingsDialog;
+    SearchDialog *searchDialog;
     QSettings settings;
     void readSettings();
     void writeSettings();
@@ -56,5 +60,7 @@ private slots:
     void slotZoomOut();
     void slotDefaultZoom();
     void printPreview(QPrinter*);
+    void showSearchDialog();
+    void slotFindText();
 };
 #endif // MAINWINDOW_H

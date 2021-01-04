@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "settingsdialog.h"
+#include "searchdialog.h"
+#include "syntaxhighlighter.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDir>
@@ -15,7 +17,7 @@
 #endif
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
-    ui(new Ui::MainWindow), settingsDialog(new SettingsDialog), settings(QSettings::NativeFormat, QSettings::UserScope, "IT", qApp->applicationName())
+    ui(new Ui::MainWindow), settingsDialog(new SettingsDialog), searchDialog(new SearchDialog), settings(QSettings::NativeFormat, QSettings::UserScope, "IT", qApp->applicationName())
 {
     ui->setupUi(this);
     setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
@@ -52,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
      ui->action_Default_zoom->setIcon(QIcon(":/actions/resources/images/default_zoom.ico"));
      ui->action_Preview->setIcon(QIcon(":/actions/resources/images/preview.ico"));
      ui->action_Print->setIcon(QIcon(":/actions/resources/images/print.ico"));
+      ui->action_Find->setIcon(QIcon(":/actions/resources/images/find.ico"));
 
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_Open, SIGNAL(triggered()), this, SLOT(slotOpen()), Qt::UniqueConnection);
@@ -59,7 +62,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_About_Qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()), Qt::UniqueConnection);
     connect(ui->action_About_program, SIGNAL(triggered()), this, SLOT(slotAboutProgram()), Qt::UniqueConnection);
     connect(ui->action_Settings, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
+    connect(ui->action_Find, SIGNAL(triggered()), this, SLOT(showSearchDialog()), Qt::UniqueConnection);
     connect(settingsDialog, SIGNAL(accepted()), this, SLOT(slotPreferencesAccepted()), Qt::UniqueConnection);
+    connect(searchDialog, SIGNAL(accepted()), this, SLOT(slotFindText()), Qt::UniqueConnection);
     connect(ui->plainTextEdit, SIGNAL(cursorPositionChanged()), this, SLOT(slotOutNumberStringAndColumn()));
     connect(ui->action_Exit, SIGNAL(triggered()), this, SLOT(closeEvent()), Qt::UniqueConnection);
     connect(ui->action_Date_and_time, SIGNAL(triggered()), this, SLOT(slotShowDateAndTime()), Qt::UniqueConnection);
@@ -404,10 +409,22 @@ void MainWindow::slotPrint()
     delete dialog;
 }
 
+void MainWindow::showSearchDialog()
+{
+    searchDialog->show();
+}
+
+void MainWindow::slotFindText()
+{
+    highlighter = new SyntaxHighlighter(ui->plainTextEdit->document());
+    if (highlighter) highlighter->setHighlightedString(searchDialog->getText());
+}
+
 MainWindow::~MainWindow()
 {
     writeSettings();
     delete ui;
     delete settingsDialog;
+    delete searchDialog;
 }
 
