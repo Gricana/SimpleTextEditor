@@ -241,6 +241,7 @@ void MainWindow::readSettings()
     settingsDialog->setShowStatusBar(showStatusBar);
     ui->toolBar->setVisible(showToolBar);
     ui->statusbar->setVisible(showStatusBar);
+    searchDialog->setCaseSensitive(settings.value("/SETTING_CASE_SENSITIVE", searchDialog->isCaseSensitive()).toBool());
 
     bool isLightTheme = settings.value("/SETTING_LIGHT_THEME", settingsDialog->isThemeLight()).toBool();
     settingsDialog->setLightTheme(isLightTheme);
@@ -281,6 +282,7 @@ void MainWindow::writeSettings()
     settings.setValue("/SETTING_LIGHT_THEME", settingsDialog->isThemeLight());
     settings.setValue("/SETTING_DARK_THEME", settingsDialog->isThemeDark());
     settings.setValue("/SETTING_WORD_WRAP", settingsDialog->isWordWrap());
+    settings.setValue("/SETTING_CASE_SENSITIVE", searchDialog->isCaseSensitive());
     settings.endGroup();
 }
 
@@ -420,6 +422,9 @@ void MainWindow::slotFindText()
 {
     if (searchDialog->getText().isEmpty()) QMessageBox::information(this, tr("Search dialog"), QString(tr("You didn't enter anything in the search bar. <b>We have nothing to look for.")), QMessageBox::Ok);
     else {
+        settings.beginGroup("/SETTINGS_SEARCH_VIEW");;
+        settings.setValue("/SETTING_CASE_SENSITIVE", searchDialog->isCaseSensitive());
+        settings.endGroup();
         highlighter = new SyntaxHighlighter(ui->plainTextEdit->document());
         highlighter->setHighlightedString(searchDialog->getText());
     }
