@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>281</width>
+    <width>372</width>
     <height>68</height>
    </rect>
   </property>
@@ -16,7 +16,7 @@
   <widget class="QDialogButtonBox" name="button_find_Text">
    <property name="geometry">
     <rect>
-     <x>180</x>
+     <x>270</x>
      <y>10</y>
      <width>81</width>
      <height>241</height>
@@ -34,9 +34,14 @@
     <rect>
      <x>10</x>
      <y>20</y>
-     <width>47</width>
+     <width>61</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Find:</string>
@@ -47,7 +52,7 @@
     <rect>
      <x>50</x>
      <y>20</y>
-     <width>113</width>
+     <width>191</width>
      <height>20</height>
     </rect>
    </property>

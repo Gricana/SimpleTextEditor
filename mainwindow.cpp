@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui(new Ui::MainWindow), settingsDialog(new SettingsDialog), searchDialog(new SearchDialog), settings(QSettings::NativeFormat, QSettings::UserScope, "IT", qApp->applicationName())
 {
     ui->setupUi(this);
+    searchDialog->setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
+    settingsDialog->setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
     setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
     ui->action_Undo->setShortcut(QKeySequence::Undo);
     ui->action_Redo->setShortcut(QKeySequence::Redo);
@@ -416,8 +418,11 @@ void MainWindow::showSearchDialog()
 
 void MainWindow::slotFindText()
 {
-    highlighter = new SyntaxHighlighter(ui->plainTextEdit->document());
-    if (highlighter) highlighter->setHighlightedString(searchDialog->getText());
+    if (searchDialog->getText().isEmpty()) QMessageBox::information(this, tr("Search dialog"), QString(tr("You didn't enter anything in the search bar. <b>We have nothing to look for.")), QMessageBox::Ok);
+    else {
+        highlighter = new SyntaxHighlighter(ui->plainTextEdit->document());
+        highlighter->setHighlightedString(searchDialog->getText());
+    }
 }
 
 MainWindow::~MainWindow()
