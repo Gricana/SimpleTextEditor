@@ -2,6 +2,7 @@
 #define SYNTAXHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
+#include <QSettings>
 
 class SyntaxHighlighter : public QSyntaxHighlighter
 {
@@ -11,6 +12,7 @@ public:
     SyntaxHighlighter(QTextDocument* parent);
     void highlightBlock(const QString& text);
     void setHighlightedString(const QString& str);
+    QSettings setting;
 };
 
 #endif // SYNTAXHIGHLIGHTER_H
