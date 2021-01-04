@@ -2,7 +2,6 @@
 #define SEARCHDIALOG_H
 
 #include <QDialog>
-#include <QTextDocument>
 
 namespace Ui {
 class SearchDialog;
@@ -16,6 +15,8 @@ public:
     explicit SearchDialog(QWidget *parent = nullptr);
     ~SearchDialog();
     QString getText();
+    bool isCaseSensitive();
+    void setCaseSensitive(bool set);
 
 private:
     Ui::SearchDialog *ui;
