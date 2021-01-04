@@ -1,4 +1,5 @@
 QT       += core gui
+qtHaveModule(printsupport): QT += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,14 +12,19 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    settingsdialog.cpp
+    searchdialog.cpp \
+    settingsdialog.cpp \
+    syntaxhighlighter.cpp
 
 HEADERS += \
     mainwindow.h \
-    settingsdialog.h
+    searchdialog.h \
+    settingsdialog.h \
+    syntaxhighlighter.h
 
 FORMS += \
     mainwindow.ui \
+    searchdialog.ui \
     settingsdialog.ui
 
 MAJ_VERSION = 1
