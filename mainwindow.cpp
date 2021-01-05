@@ -19,9 +19,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui(new Ui::MainWindow), settingsDialog(new SettingsDialog), searchDialog(new SearchDialog), settings(QSettings::NativeFormat, QSettings::UserScope, "IT", qApp->applicationName())
 {
     ui->setupUi(this);
+    setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
     searchDialog->setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
     settingsDialog->setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
-    setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
     ui->action_Undo->setShortcut(QKeySequence::Undo);
     ui->action_Redo->setShortcut(QKeySequence::Redo);
     ui->action_Cut->setShortcut(QKeySequence::Cut);
@@ -94,9 +94,9 @@ void MainWindow::saveInputSettings()
     int app_width = settings.value("/WIDTH", width()).toInt();
     int app_height = settings.value("/HEIGHT", height()).toInt();
     this->resize(app_width, app_height);
+    settings.endGroup();
     ui->plainTextEdit->setFont(font);
     ui->plainTextEdit->setFrameShape(QFrame::NoFrame);
-    settings.endGroup();
 }
 
 void MainWindow::lightTheme()
@@ -239,7 +239,6 @@ void MainWindow::readSettings()
     settingsDialog->setShowStatusBar(showStatusBar);
     ui->toolBar->setVisible(showToolBar);
     ui->statusbar->setVisible(showStatusBar);
-    searchDialog->setCaseSensitive(settings.value("/SETTING_CASE_SENSITIVE", searchDialog->isCaseSensitive()).toBool());
 
     bool isLightTheme = settings.value("/SETTING_LIGHT_THEME", settingsDialog->isThemeLight()).toBool();
     settingsDialog->setLightTheme(isLightTheme);
@@ -280,7 +279,6 @@ void MainWindow::writeSettings()
     settings.setValue("/SETTING_LIGHT_THEME", settingsDialog->isThemeLight());
     settings.setValue("/SETTING_DARK_THEME", settingsDialog->isThemeDark());
     settings.setValue("/SETTING_WORD_WRAP", settingsDialog->isWordWrap());
-    settings.setValue("/SETTING_CASE_SENSITIVE", searchDialog->isCaseSensitive());
     settings.endGroup();
 }
 
@@ -420,9 +418,6 @@ void MainWindow::slotFindText()
 {
     if (searchDialog->getText().isEmpty()) QMessageBox::information(this, tr("Search dialog"), QString(tr("You didn't enter anything in the search bar. <b>We have nothing to look for.")), QMessageBox::Ok);
     else {
-        settings.beginGroup("/SETTINGS_SEARCH_VIEW");;
-        settings.setValue("/SETTING_CASE_SENSITIVE", searchDialog->isCaseSensitive());
-        settings.endGroup();
         QTextCharFormat format; format.setBackground(Qt::green);
         while (ui->plainTextEdit->find(searchDialog->getText(), QTextDocument::FindCaseSensitively)) {
             ui->plainTextEdit->textCursor().insertText(searchDialog->getText(), format);

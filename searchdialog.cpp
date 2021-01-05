@@ -18,11 +18,6 @@ bool SearchDialog::isCaseSensitive()
     return ui->checkBox->isChecked();
 }
 
-void SearchDialog::setCaseSensitive(bool set)
-{
-    ui->checkBox->setChecked(set);
-}
-
 SearchDialog::~SearchDialog()
 {
     delete ui;

@@ -16,7 +16,6 @@ public:
     ~SearchDialog();
     QString getText();
     bool isCaseSensitive();
-    void setCaseSensitive(bool set);
 
 private:
     Ui::SearchDialog *ui;
