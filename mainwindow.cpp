@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include "settingsdialog.h"
 #include "searchdialog.h"
-#include "syntaxhighlighter.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDir>
@@ -424,10 +423,17 @@ void MainWindow::slotFindText()
         settings.beginGroup("/SETTINGS_SEARCH_VIEW");;
         settings.setValue("/SETTING_CASE_SENSITIVE", searchDialog->isCaseSensitive());
         settings.endGroup();
-        highlighter = new SyntaxHighlighter(ui->plainTextEdit->document());
-        highlighter->setHighlightedString(searchDialog->getText());
+        QTextCharFormat format; format.setBackground(Qt::green);
+        while (ui->plainTextEdit->find(searchDialog->getText(), QTextDocument::FindCaseSensitively)) {
+            ui->plainTextEdit->textCursor().insertText(searchDialog->getText(), format);
+        }
     }
 }
+//        ui->plainTextEdit->moveCursor(QTextCursor::Start);
+//        if (ui->plainTextEdit->find(searchDialog->getText(), QTextDocument::FindCaseSensitively)) {
+//            ui->plainTextEdit->textCursor().insertText("Испания");
+//            highlighter->setHighlightedString("Испания");
+//        }
 
 MainWindow::~MainWindow()
 {
