@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>194</width>
-    <height>227</height>
+    <width>196</width>
+    <height>245</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,6 +53,13 @@
        </widget>
       </item>
       <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="label">
         <property name="text">
          <string>Theme</string>
@@ -73,6 +80,13 @@
        <widget class="QRadioButton" name="radioButton_Dark">
         <property name="text">
          <string>Dark</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
