@@ -13,14 +13,12 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     searchdialog.cpp \
-    settingsdialog.cpp \
-    syntaxhighlighter.cpp
+    settingsdialog.cpp
 
 HEADERS += \
     mainwindow.h \
     searchdialog.h \
-    settingsdialog.h \
-    syntaxhighlighter.h
+    settingsdialog.h
 
 FORMS += \
     mainwindow.ui \
