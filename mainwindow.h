@@ -24,7 +24,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    SyntaxHighlighter *highlighter;
     QString fileName;
     int app_counter;
     QFont font = QFont("Times", 14);
