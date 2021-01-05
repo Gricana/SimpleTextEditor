@@ -80,9 +80,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Preview, SIGNAL(triggered()), this, SLOT(slotPreview()), Qt::UniqueConnection);
     connect(ui->action_Print, SIGNAL(triggered()), this, SLOT(slotPrint()), Qt::UniqueConnection);
     slotNew();
-    ui->plainTextEdit->setFont(QFont("Times", 14));
-    font = ui->plainTextEdit->font();
-    ui->plainTextEdit->setFrameShape(QFrame::NoFrame);
     saveInputSettings();
     readSettings();
 }
@@ -98,6 +95,8 @@ void MainWindow::saveInputSettings()
     int app_width = settings.value("/WIDTH", width()).toInt();
     int app_height = settings.value("/HEIGHT", height()).toInt();
     this->resize(app_width, app_height);
+    ui->plainTextEdit->setFont(font);
+    ui->plainTextEdit->setFrameShape(QFrame::NoFrame);
     settings.endGroup();
 }
 

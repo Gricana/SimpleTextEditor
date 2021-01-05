@@ -27,7 +27,7 @@ private:
     SyntaxHighlighter *highlighter;
     QString fileName;
     int app_counter;
-    QFont font;
+    QFont font = QFont("Times", 14);
     bool isLight, isDark;
     unsigned long int zoomValue = 100;
     void lightTheme();
