@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/actions">
+        <file>resources/images/about_program.ico</file>
+        <file>resources/images/about_qt.ico</file>
+        <file>resources/images/color.ico</file>
+        <file>resources/images/copy.ico</file>
+        <file>resources/images/cut.ico</file>
+        <file>resources/images/date_time.ico</file>
+        <file>resources/images/default_zoom.ico</file>
+        <file>resources/images/exit.ico</file>
+        <file>resources/images/find.ico</file>
+        <file>resources/images/font.ico</file>
+        <file>resources/images/go_to.ico</file>
+        <file>resources/images/new.ico</file>
+        <file>resources/images/open.ico</file>
+        <file>resources/images/paste.ico</file>
+        <file>resources/images/preview.ico</file>
+        <file>resources/images/print.ico</file>
+        <file>resources/images/redo.ico</file>
+        <file>resources/images/save.ico</file>
+        <file>resources/images/select_all.ico</file>
+        <file>resources/images/settings.ico</file>
+        <file>resources/images/undo.ico</file>
+        <file>resources/images/zoom_in.ico</file>
+        <file>resources/images/zoom_out.ico</file>
+        <file>resources/images/text_editor_icon.ico</file>
+    </qresource>
+</RCC>
