@@ -24,5 +24,6 @@
         <file>resources/images/zoom_in.ico</file>
         <file>resources/images/zoom_out.ico</file>
         <file>resources/images/text_editor_icon.ico</file>
+        <file>resources/images/replace.ico</file>
     </qresource>
 </RCC>
