@@ -16,6 +16,9 @@ public:
     ~SearchDialog();
     QString getText();
     bool isCaseSensitive();
+    bool isFirstOccurrence();
+    bool isAllFollowingOccurrences();
+    bool isAllDocument();
 
 private:
     Ui::SearchDialog *ui;

@@ -18,6 +18,21 @@ bool SearchDialog::isCaseSensitive()
     return ui->checkBox->isChecked();
 }
 
+bool SearchDialog::isFirstOccurrence()
+{
+    return ui->radioButton_2->isChecked();;
+}
+
+bool SearchDialog::isAllFollowingOccurrences()
+{
+    return ui->radioButton->isChecked();
+}
+
+bool SearchDialog::isAllDocument()
+{
+    return ui->radioButton_3->isChecked();
+}
+
 SearchDialog::~SearchDialog()
 {
     delete ui;
