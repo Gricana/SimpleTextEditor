@@ -10,57 +10,27 @@ SearchDialog::SearchDialog(QWidget *parent) :
 
 QString SearchDialog::getText()
 {
-    return ui->lineEdit_text->text();
-}
-
-QString SearchDialog::getTextReplaced()
-{
-    return ui->lineEdit->text();
-}
-
-QString SearchDialog::getTextReplacing()
-{
-    return ui->lineEdit_2->text();
+    return ui->lineEdit_text_12->text();
 }
 
 bool SearchDialog::isCaseSensitive()
 {
-    return ui->checkBox->isChecked();
+    return ui->checkBox_23->isChecked();
 }
 
 bool SearchDialog::isFirstOccurrence()
 {
-    return ui->radioButton_2->isChecked();;
+    return ui->radioButton_67->isChecked();;
 }
 
 bool SearchDialog::isAllFollowingOccurrences()
 {
-    return ui->radioButton->isChecked();
+    return ui->radioButton_69->isChecked();
 }
 
 bool SearchDialog::isAllDocument()
 {
-    return ui->radioButton_3->isChecked();
-}
-
-bool SearchDialog::isCaseSensitiveReplace()
-{
-    return ui->checkBox_4->isChecked();
-}
-
-bool SearchDialog::isFirstOccurenceReplace()
-{
-    return ui->radioButton_10->isChecked();
-}
-
-bool SearchDialog::isAllFollowingReplace()
-{
-    return ui->radioButton_11->isChecked();
-}
-
-bool SearchDialog::isAllDocumentReplace()
-{
-    return ui->radioButton_12->isChecked();
+    return ui->radioButton_68->isChecked();
 }
 
 SearchDialog::~SearchDialog()

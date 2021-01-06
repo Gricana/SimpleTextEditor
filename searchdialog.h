@@ -15,16 +15,10 @@ public:
     explicit SearchDialog(QWidget *parent = nullptr);
     ~SearchDialog();
     QString getText();
-    QString getTextReplaced();
-    QString getTextReplacing();
     bool isCaseSensitive();
     bool isFirstOccurrence();
     bool isAllFollowingOccurrences();
     bool isAllDocument();
-    bool isFirstOccurenceReplace();
-    bool isAllFollowingReplace();
-    bool isAllDocumentReplace();
-    bool isCaseSensitiveReplace();
 
 private:
     Ui::SearchDialog *ui;

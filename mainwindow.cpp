@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "settingsdialog.h"
 #include "searchdialog.h"
+#include "replacedialog.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDir>
@@ -16,11 +17,12 @@
 #endif
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
-    ui(new Ui::MainWindow), settingsDialog(new SettingsDialog), searchDialog(new SearchDialog), settings(QSettings::NativeFormat, QSettings::UserScope, "IT", qApp->applicationName())
+    ui(new Ui::MainWindow), settingsDialog(new SettingsDialog), searchDialog(new SearchDialog), replaceDialog(new ReplaceDialog), settings(QSettings::NativeFormat, QSettings::UserScope, "IT", qApp->applicationName())
 {
     ui->setupUi(this);
     setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
     searchDialog->setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
+    replaceDialog->setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
     settingsDialog->setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
     ui->action_Undo->setShortcut(QKeySequence::Undo);
     ui->action_Redo->setShortcut(QKeySequence::Redo);
@@ -56,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
      ui->action_Preview->setIcon(QIcon(":/actions/resources/images/preview.ico"));
      ui->action_Print->setIcon(QIcon(":/actions/resources/images/print.ico"));
       ui->action_Find->setIcon(QIcon(":/actions/resources/images/find.ico"));
+      ui->action_Replace->setIcon(QIcon(":/actions/resources/images/replace.ico"));
 
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_Open, SIGNAL(triggered()), this, SLOT(slotOpen()), Qt::UniqueConnection);
@@ -64,8 +67,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_About_program, SIGNAL(triggered()), this, SLOT(slotAboutProgram()), Qt::UniqueConnection);
     connect(ui->action_Settings, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
     connect(ui->action_Find, SIGNAL(triggered()), this, SLOT(showSearchDialog()), Qt::UniqueConnection);
+    connect(ui->action_Replace, SIGNAL(triggered()), this, SLOT(showReplaceDialog()), Qt::UniqueConnection);
     connect(settingsDialog, SIGNAL(accepted()), this, SLOT(slotPreferencesAccepted()), Qt::UniqueConnection);
     connect(searchDialog, SIGNAL(accepted()), this, SLOT(slotFindText()), Qt::UniqueConnection);
+    connect(replaceDialog, SIGNAL(accepted()), this, SLOT(slotReplaceText()), Qt::UniqueConnection);
     connect(ui->plainTextEdit, SIGNAL(cursorPositionChanged()), this, SLOT(slotOutNumberStringAndColumn()));
     connect(ui->action_Exit, SIGNAL(triggered()), this, SLOT(closeEvent()), Qt::UniqueConnection);
     connect(ui->action_Date_and_time, SIGNAL(triggered()), this, SLOT(slotShowDateAndTime()), Qt::UniqueConnection);
@@ -414,15 +419,18 @@ void MainWindow::showSearchDialog()
     searchDialog->show();
 }
 
+void MainWindow::showReplaceDialog()
+{
+    replaceDialog->show();
+}
+
 void MainWindow::slotFindText()
 {
     if (searchDialog->getText().isEmpty())
     {
-        ui->plainTextEdit->undo();
-        isFound = false;
+        QMessageBox::information(this, "Search", tr("The search bar is empty. <p>We have nothing to look for."), QMessageBox::Ok);
     }
     else {
-        if (isFound) ui->plainTextEdit->undo();
         ui->plainTextEdit->textCursor().beginEditBlock();
         QTextCharFormat format; format.setBackground(Qt::yellow);
         QString findString = searchDialog->getText();
@@ -447,7 +455,7 @@ void MainWindow::slotFindText()
             }
         } else if (searchDialog->isAllDocument() and searchDialog->isCaseSensitive()) {
             ui->plainTextEdit->moveCursor(QTextCursor::Start);
-            while (ui->plainTextEdit->find(searchDialog->getText(), QTextDocument::FindCaseSensitively)) {
+            while (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
                 ui->plainTextEdit->textCursor().insertText(findString, format);
             }
         } else if (searchDialog->isAllDocument() and !searchDialog->isCaseSensitive()){
@@ -458,7 +466,49 @@ void MainWindow::slotFindText()
             }
         }
         ui->plainTextEdit->textCursor().endEditBlock();
-        isFound = true;
+    }
+}
+
+void MainWindow::slotReplaceText()
+{
+    if (replaceDialog->getTextReplaced().isEmpty() or replaceDialog->getTextReplacing().isEmpty())
+    {
+        QMessageBox::information(this, "Replace", tr("You didn't enter one of the words. <p>The operation cannot be performed"), QMessageBox::Ok);
+    }
+    else {
+        ui->plainTextEdit->textCursor().beginEditBlock();
+        QTextCharFormat format; format.setBackground(Qt::green);
+        QString findString = replaceDialog->getTextReplaced();
+        QString replaceString = replaceDialog->getTextReplacing();
+        if (replaceDialog->isFirstOccurrenceReplace() and replaceDialog->isCaseSensitiveReplace())
+        {
+            if (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(replaceString, format);
+            }
+        } else if (replaceDialog->isFirstOccurrenceReplace() and !replaceDialog->isCaseSensitiveReplace()) {
+                if (ui->plainTextEdit->find(findString)) {
+                    ui->plainTextEdit->textCursor().insertText(replaceString, format);
+                }
+        } else if (replaceDialog->isAllFollowingReplace() and replaceDialog->isCaseSensitiveReplace()) {
+            while (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(replaceString, format);
+            }
+        } else if (replaceDialog->isAllFollowingReplace() and !replaceDialog->isCaseSensitiveReplace()){
+            while (ui->plainTextEdit->find(findString)) {
+                ui->plainTextEdit->textCursor().insertText(replaceString, format);
+            }
+        } else if (replaceDialog->isAllDocumentReplace() and replaceDialog->isCaseSensitiveReplace()) {
+            ui->plainTextEdit->moveCursor(QTextCursor::Start);
+            while (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(replaceString, format);
+            }
+        } else if (replaceDialog->isAllDocumentReplace() and !replaceDialog->isCaseSensitiveReplace()){
+            ui->plainTextEdit->moveCursor(QTextCursor::Start);
+            while (ui->plainTextEdit->find(findString)) {
+                ui->plainTextEdit->textCursor().insertText(replaceString, format);
+            }
+        }
+        ui->plainTextEdit->textCursor().endEditBlock();
     }
 }
 
@@ -468,5 +518,6 @@ MainWindow::~MainWindow()
     delete ui;
     delete settingsDialog;
     delete searchDialog;
+    delete replaceDialog;
 }
 

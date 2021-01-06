@@ -6,7 +6,7 @@
 #include <QSettings>
 class SettingsDialog;
 class SearchDialog;
-class SyntaxHighlighter;
+class ReplaceDialog;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,7 +29,6 @@ private:
     QFont font = QFont("Times", 14);
     QColor color;
     bool isLight, isDark;
-    bool isFound = false;
     unsigned long int zoomValue = 100;
     void lightTheme();
     void darkTheme();
@@ -37,6 +36,7 @@ private:
     bool askForFileSaveAndClose();
     SettingsDialog *settingsDialog;
     SearchDialog *searchDialog;
+    ReplaceDialog *replaceDialog;
     QSettings settings;
     void readSettings();
     void writeSettings();
@@ -62,6 +62,8 @@ private slots:
     void slotDefaultZoom();
     void printPreview(QPrinter*);
     void showSearchDialog();
+    void showReplaceDialog();
     void slotFindText();
+    void slotReplaceText();
 };
 #endif // MAINWINDOW_H
