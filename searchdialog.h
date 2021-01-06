@@ -15,6 +15,8 @@ public:
     explicit SearchDialog(QWidget *parent = nullptr);
     ~SearchDialog();
     QString getText();
+    QString getTextReplaced();
+    QString getTextReplacing();
     bool isCaseSensitive();
     bool isFirstOccurrence();
     bool isAllFollowingOccurrences();

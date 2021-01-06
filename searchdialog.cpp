@@ -13,6 +13,16 @@ QString SearchDialog::getText()
     return ui->lineEdit_text->text();
 }
 
+QString SearchDialog::getTextReplaced()
+{
+    return ui->lineEdit->text();
+}
+
+QString SearchDialog::getTextReplacing()
+{
+    return ui->lineEdit_2->text();
+}
+
 bool SearchDialog::isCaseSensitive()
 {
     return ui->checkBox->isChecked();
