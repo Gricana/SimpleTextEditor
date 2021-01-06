@@ -80,23 +80,6 @@
     <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>
-   <widget class="QMenu" name="menu_Edit">
-    <property name="title">
-     <string>&amp;Edit</string>
-    </property>
-    <addaction name="action_Undo"/>
-    <addaction name="action_Redo"/>
-    <addaction name="separator"/>
-    <addaction name="action_Cut"/>
-    <addaction name="action_Copy"/>
-    <addaction name="action_Paste"/>
-    <addaction name="separator"/>
-    <addaction name="action_Select_all"/>
-    <addaction name="action_Date_and_time"/>
-    <addaction name="separator"/>
-    <addaction name="action_Go_to_the"/>
-    <addaction name="action_Find"/>
-   </widget>
    <widget class="QMenu" name="menu_About">
     <property name="title">
      <string>&amp;About</string>
@@ -109,6 +92,14 @@
      <string>&amp;Settings</string>
     </property>
     <addaction name="action_Settings"/>
+   </widget>
+   <widget class="QMenu" name="menu_View">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="action_Zoom_in"/>
+    <addaction name="action_Zoom_out"/>
+    <addaction name="action_Default_zoom"/>
    </widget>
    <widget class="QMenu" name="menu_Format">
     <property name="title">
@@ -125,13 +116,23 @@
     <addaction name="menu_Color"/>
     <addaction name="separator"/>
    </widget>
-   <widget class="QMenu" name="menu_View">
+   <widget class="QMenu" name="menu_Edit">
     <property name="title">
-     <string>&amp;View</string>
+     <string>&amp;Edit</string>
     </property>
-    <addaction name="action_Zoom_in"/>
-    <addaction name="action_Zoom_out"/>
-    <addaction name="action_Default_zoom"/>
+    <addaction name="action_Undo"/>
+    <addaction name="action_Redo"/>
+    <addaction name="separator"/>
+    <addaction name="action_Cut"/>
+    <addaction name="action_Copy"/>
+    <addaction name="action_Paste"/>
+    <addaction name="separator"/>
+    <addaction name="action_Select_all"/>
+    <addaction name="action_Date_and_time"/>
+    <addaction name="separator"/>
+    <addaction name="action_Go_to_the"/>
+    <addaction name="action_Find"/>
+    <addaction name="action_Replace"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Edit"/>
@@ -523,6 +524,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="action_Replace">
+   <property name="text">
+    <string>&amp;Replace</string>
+   </property>
+   <property name="statusTip">
+    <string>Find text fragment and replace it with another one</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
    </property>
   </action>
  </widget>
