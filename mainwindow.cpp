@@ -347,7 +347,7 @@ void MainWindow::slotSetColorText()
 
 void MainWindow::slotSetColorBackground()
 {
-    QColor color = QColorDialog::getColor(QColor(), this, QString(tr("Select color of background")));
+    color = QColorDialog::getColor(QColor(), this, QString(tr("Select color of background")));
     if (color.isValid()) {
         QPalette p = ui->plainTextEdit->palette();
         p.setColor(QPalette::Inactive, QPalette::Base, color);
@@ -416,19 +416,51 @@ void MainWindow::showSearchDialog()
 
 void MainWindow::slotFindText()
 {
-    if (searchDialog->getText().isEmpty()) QMessageBox::information(this, tr("Search dialog"), QString(tr("You didn't enter anything in the search bar. <b>We have nothing to look for.")), QMessageBox::Ok);
+    if (searchDialog->getText().isEmpty())
+    {
+        ui->plainTextEdit->undo();
+        isFound = false;
+    }
     else {
-        QTextCharFormat format; format.setBackground(Qt::green);
-        while (ui->plainTextEdit->find(searchDialog->getText(), QTextDocument::FindCaseSensitively)) {
-            ui->plainTextEdit->textCursor().insertText(searchDialog->getText(), format);
+        if (isFound) ui->plainTextEdit->undo();
+        ui->plainTextEdit->textCursor().beginEditBlock();
+        QTextCharFormat format; format.setBackground(Qt::yellow);
+        QString findString = searchDialog->getText();
+        if (searchDialog->isFirstOccurrence() and searchDialog->isCaseSensitive())
+        {
+            if (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(findString, format);
+            }
+        } else if (searchDialog->isFirstOccurrence() and !searchDialog->isCaseSensitive()) {
+                if (ui->plainTextEdit->find(findString)) {
+                    ui->plainTextEdit->textCursor().select(QTextCursor::BlockUnderCursor);
+                    ui->plainTextEdit->textCursor().insertText(ui->plainTextEdit->textCursor().selectedText(), format);
+                }
+        } else if (searchDialog->isAllFollowingOccurrences() and searchDialog->isCaseSensitive()) {
+            while (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(findString, format);
+            }
+        } else if (searchDialog->isAllFollowingOccurrences() and !searchDialog->isCaseSensitive()){
+            while (ui->plainTextEdit->find(findString)) {
+                ui->plainTextEdit->textCursor().select(QTextCursor::BlockUnderCursor);
+                ui->plainTextEdit->textCursor().insertText(ui->plainTextEdit->textCursor().selectedText(), format);
+            }
+        } else if (searchDialog->isAllDocument() and searchDialog->isCaseSensitive()) {
+            ui->plainTextEdit->moveCursor(QTextCursor::Start);
+            while (ui->plainTextEdit->find(searchDialog->getText(), QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(findString, format);
+            }
+        } else if (searchDialog->isAllDocument() and !searchDialog->isCaseSensitive()){
+            ui->plainTextEdit->moveCursor(QTextCursor::Start);
+            while (ui->plainTextEdit->find(findString)) {
+                ui->plainTextEdit->textCursor().select(QTextCursor::BlockUnderCursor);
+                ui->plainTextEdit->textCursor().insertText(ui->plainTextEdit->textCursor().selectedText(), format);
+            }
         }
+        ui->plainTextEdit->textCursor().endEditBlock();
+        isFound = true;
     }
 }
-//        ui->plainTextEdit->moveCursor(QTextCursor::Start);
-//        if (ui->plainTextEdit->find(searchDialog->getText(), QTextDocument::FindCaseSensitively)) {
-//            ui->plainTextEdit->textCursor().insertText("Испания");
-//            highlighter->setHighlightedString("Испания");
-//        }
 
 MainWindow::~MainWindow()
 {

@@ -27,7 +27,9 @@ private:
     QString fileName;
     int app_counter;
     QFont font = QFont("Times", 14);
+    QColor color;
     bool isLight, isDark;
+    bool isFound = false;
     unsigned long int zoomValue = 100;
     void lightTheme();
     void darkTheme();
