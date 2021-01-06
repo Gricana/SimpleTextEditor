@@ -33,6 +33,26 @@ bool SearchDialog::isAllDocument()
     return ui->radioButton_3->isChecked();
 }
 
+bool SearchDialog::isCaseSensitiveReplace()
+{
+    return ui->checkBox_4->isChecked();
+}
+
+bool SearchDialog::isFirstOccurenceReplace()
+{
+    return ui->radioButton_10->isChecked();
+}
+
+bool SearchDialog::isAllFollowingReplace()
+{
+    return ui->radioButton_11->isChecked();
+}
+
+bool SearchDialog::isAllDocumentReplace()
+{
+    return ui->radioButton_12->isChecked();
+}
+
 SearchDialog::~SearchDialog()
 {
     delete ui;

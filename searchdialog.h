@@ -19,6 +19,10 @@ public:
     bool isFirstOccurrence();
     bool isAllFollowingOccurrences();
     bool isAllDocument();
+    bool isFirstOccurenceReplace();
+    bool isAllFollowingReplace();
+    bool isAllDocumentReplace();
+    bool isCaseSensitiveReplace();
 
 private:
     Ui::SearchDialog *ui;
