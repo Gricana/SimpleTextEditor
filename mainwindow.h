@@ -29,6 +29,7 @@ private:
     QFont font = QFont("Times", 14);
     QColor color;
     bool isLight, isDark;
+    bool isReplace;
     unsigned long int zoomValue = 100;
     void lightTheme();
     void darkTheme();
@@ -41,6 +42,7 @@ private:
     void readSettings();
     void writeSettings();
     void saveInputSettings();
+    void checkingReplace();
 private slots:
     void slotNew();
     void slotOpen();

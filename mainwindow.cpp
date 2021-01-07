@@ -106,6 +106,8 @@ void MainWindow::saveInputSettings()
 
 void MainWindow::lightTheme()
 {
+    color = QColor(Qt::white);
+    checkingReplace();
     QPalette p = palette();
     p.setColor(QPalette::Window, Qt::white);
     p.setColor(QPalette::WindowText, Qt::black);
@@ -129,6 +131,8 @@ void MainWindow::lightTheme()
 
 void MainWindow::darkTheme()
 {
+    color = QColor("#2e2f30");
+    checkingReplace();
     QPalette p = palette();
     p.setColor(QPalette::Window, QColor("#2e2f30"));
     p.setColor(QPalette::WindowText, Qt::white);
@@ -354,6 +358,7 @@ void MainWindow::slotSetColorBackground()
 {
     color = QColorDialog::getColor(QColor(), this, QString(tr("Select color of background")));
     if (color.isValid()) {
+        checkingReplace();
         QPalette p = ui->plainTextEdit->palette();
         p.setColor(QPalette::Inactive, QPalette::Base, color);
         p.setColor(QPalette::Active, QPalette::Base, color);
@@ -422,6 +427,7 @@ void MainWindow::showSearchDialog()
 void MainWindow::showReplaceDialog()
 {
     replaceDialog->show();
+    checkingReplace();
 }
 
 void MainWindow::slotFindText()
@@ -473,9 +479,11 @@ void MainWindow::slotReplaceText()
 {
     if (replaceDialog->getTextReplaced().isEmpty() or replaceDialog->getTextReplacing().isEmpty())
     {
-        QMessageBox::information(this, "Replace", tr("You didn't enter one of the words. <p>The operation cannot be performed"), QMessageBox::Ok);
+        isReplace = false;
+        QMessageBox::information(this, tr("Replace"), tr("You didn't enter one of the words. <p>The operation cannot be performed"), QMessageBox::Ok);
     }
     else {
+        isReplace = true;
         ui->plainTextEdit->textCursor().beginEditBlock();
         QTextCharFormat format; format.setBackground(Qt::green);
         QString findString = replaceDialog->getTextReplaced();
@@ -509,6 +517,20 @@ void MainWindow::slotReplaceText()
             }
         }
         ui->plainTextEdit->textCursor().endEditBlock();
+    }
+}
+
+void MainWindow::checkingReplace()
+{
+    if (isReplace) {
+    QTextCursor cursor(ui->plainTextEdit->textCursor());
+    const int cursorPosition = cursor.position();
+    QString document = ui->plainTextEdit->document()->toPlainText();
+    ui->plainTextEdit->clear();
+    QTextCharFormat highlight; highlight.setBackground(QColor(color));
+    ui->plainTextEdit->textCursor().insertText(document, highlight);
+    cursor.setPosition(cursorPosition);
+    ui->plainTextEdit->setTextCursor(cursor);
     }
 }
 
