@@ -26,27 +26,9 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QPlainTextEdit" name="plainTextEdit">
+     <widget class="QTextEdit" name="textEdit">
       <property name="statusTip">
        <string>Enter the text</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
-      </property>
-      <property name="lineWrapMode">
-       <enum>QPlainTextEdit::WidgetWidth</enum>
-      </property>
-      <property name="plainText">
-       <string/>
-      </property>
-      <property name="tabStopWidth">
-       <number>80</number>
-      </property>
-      <property name="backgroundVisible">
-       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -541,14 +523,14 @@
  <resources/>
  <connections>
   <connection>
-   <sender>plainTextEdit</sender>
+   <sender>textEdit</sender>
    <signal>copyAvailable(bool)</signal>
    <receiver>action_Cut</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>399</x>
-     <y>298</y>
+     <y>179</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -557,14 +539,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>plainTextEdit</sender>
+   <sender>textEdit</sender>
    <signal>undoAvailable(bool)</signal>
    <receiver>action_Undo</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>399</x>
-     <y>298</y>
+     <y>179</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -573,14 +555,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>plainTextEdit</sender>
+   <sender>textEdit</sender>
    <signal>redoAvailable(bool)</signal>
    <receiver>action_Redo</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>399</x>
-     <y>298</y>
+     <y>179</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
@@ -589,25 +571,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>plainTextEdit</sender>
-   <signal>modificationChanged(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>setWindowModified(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>399</x>
-     <y>298</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>action_Paste</sender>
    <signal>triggered()</signal>
-   <receiver>plainTextEdit</receiver>
+   <receiver>textEdit</receiver>
    <slot>paste()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -616,7 +582,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
-     <y>298</y>
+     <y>179</y>
     </hint>
    </hints>
   </connection>
@@ -639,7 +605,7 @@
   <connection>
    <sender>action_Undo</sender>
    <signal>triggered()</signal>
-   <receiver>plainTextEdit</receiver>
+   <receiver>textEdit</receiver>
    <slot>undo()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -648,14 +614,14 @@
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
-     <y>298</y>
+     <y>179</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>action_Select_all</sender>
    <signal>triggered()</signal>
-   <receiver>plainTextEdit</receiver>
+   <receiver>textEdit</receiver>
    <slot>selectAll()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -664,14 +630,14 @@
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
-     <y>298</y>
+     <y>179</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>action_Redo</sender>
    <signal>triggered()</signal>
-   <receiver>plainTextEdit</receiver>
+   <receiver>textEdit</receiver>
    <slot>redo()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -680,51 +646,19 @@
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
-     <y>266</y>
+     <y>179</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>action_Cut</sender>
-   <signal>triggered()</signal>
-   <receiver>plainTextEdit</receiver>
-   <slot>cut()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>298</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>action_Copy</sender>
-   <signal>triggered()</signal>
-   <receiver>plainTextEdit</receiver>
-   <slot>copy()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>298</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>plainTextEdit</sender>
+   <sender>textEdit</sender>
    <signal>copyAvailable(bool)</signal>
    <receiver>action_Copy</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>399</x>
-     <y>298</y>
+     <y>179</y>
     </hint>
     <hint type="destinationlabel">
      <x>-1</x>
