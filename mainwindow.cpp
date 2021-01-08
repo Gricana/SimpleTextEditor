@@ -11,6 +11,7 @@
 #include <QColorDialog>
 #include <QFontDialog>
 #include <QInputDialog>
+#include <QTextCodec>
 #ifndef QT_NO_PRINTER
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
@@ -20,6 +21,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     ui(new Ui::MainWindow), settingsDialog(new SettingsDialog), searchDialog(new SearchDialog), replaceDialog(new ReplaceDialog), settings(QSettings::NativeFormat, QSettings::UserScope, "IT", qApp->applicationName())
 {
     ui->setupUi(this);
+
+    QTextCodec* codec = QTextCodec::codecForName("CP1251");
+    QTextCodec::setCodecForLocale(codec);
+
     setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
     searchDialog->setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
     replaceDialog->setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));

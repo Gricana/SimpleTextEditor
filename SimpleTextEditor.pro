@@ -38,6 +38,8 @@ RESOURCES += resources.qrc
 
 RC_FILE += icon.rc
 
+TRANSLATIONS = QReader_ru.ts
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
