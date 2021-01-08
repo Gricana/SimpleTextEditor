@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include "replacedialog.h"
+#include "searchdialog.h"
 #include <QApplication>
 #include <QTranslator>
 #include <QLocale>

@@ -161,8 +161,8 @@ void MainWindow::darkTheme()
 
 void MainWindow::updateTitle()
 {
-    QString title = QString("TextEditor - %1[*]").arg(fileName);
-    setWindowTitle(title);
+    QString title = QString(tr(" - %1[*]")).arg(fileName);
+    setWindowTitle(windowTitle() + title);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

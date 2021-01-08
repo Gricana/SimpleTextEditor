@@ -343,7 +343,7 @@
     <string>&amp;Settings</string>
    </property>
    <property name="statusTip">
-    <string>Сustomize the view of the status bar and toolbar</string>
+    <string>Set app settings</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
