@@ -71,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(settingsDialog, SIGNAL(accepted()), this, SLOT(slotPreferencesAccepted()), Qt::UniqueConnection);
     connect(searchDialog, SIGNAL(accepted()), this, SLOT(slotFindText()), Qt::UniqueConnection);
     connect(replaceDialog, SIGNAL(accepted()), this, SLOT(slotReplaceText()), Qt::UniqueConnection);
-    connect(ui->textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(slotOutNumberStringAndColumn()));
+    connect(ui->plainTextEdit, SIGNAL(cursorPositionChanged()), this, SLOT(slotOutNumberStringAndColumn()));
     connect(ui->action_Exit, SIGNAL(triggered()), this, SLOT(closeEvent()), Qt::UniqueConnection);
     connect(ui->action_Date_and_time, SIGNAL(triggered()), this, SLOT(slotShowDateAndTime()), Qt::UniqueConnection);
     connect(ui->action_Go_to_the, SIGNAL(triggered()), this, SLOT(slotGoToTheLine()), Qt::UniqueConnection);
@@ -83,7 +83,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Default_zoom, SIGNAL(triggered()), this, SLOT(slotDefaultZoom()));
     connect(ui->action_Preview, SIGNAL(triggered()), this, SLOT(slotPreview()), Qt::UniqueConnection);
     connect(ui->action_Print, SIGNAL(triggered()), this, SLOT(slotPrint()), Qt::UniqueConnection);
-    connect(ui->textEdit->document(), SIGNAL(modificationChanged(bool)), this, SLOT(setWindowModified(bool)));
     slotNew();
     saveInputSettings();
     readSettings();
@@ -101,8 +100,8 @@ void MainWindow::saveInputSettings()
     int app_height = settings.value("/HEIGHT", height()).toInt();
     this->resize(app_width, app_height);
     settings.endGroup();
-    ui->textEdit->setFont(font);
-    ui->textEdit->setFrameShape(QFrame::NoFrame);
+    ui->plainTextEdit->setFont(font);
+    ui->plainTextEdit->setFrameShape(QFrame::NoFrame);
 }
 
 void MainWindow::lightTheme()
@@ -115,12 +114,12 @@ void MainWindow::lightTheme()
     p.setColor(QPalette::ButtonText, Qt::black);
     this->setPalette(p);
     ui->menubar->setStyleSheet(QString("background-color: white; color: black;"));
-    QPalette pal = ui->textEdit->palette();
+    QPalette pal = ui->plainTextEdit->palette();
     pal.setColor(QPalette::Active, QPalette::Text, Qt::black);
     pal.setColor(QPalette::Inactive, QPalette::Text, Qt::black);
     pal.setColor(QPalette::Active, QPalette::Base, Qt::white);
     pal.setColor(QPalette::Inactive, QPalette::Base, Qt::white);
-    ui->textEdit->setPalette(pal);
+    ui->plainTextEdit->setPalette(pal);
     ui->menu_File->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
     ui->menu_Edit->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
     ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
@@ -140,12 +139,12 @@ void MainWindow::darkTheme()
     p.setColor(QPalette::ButtonText, Qt::white);
     this->setPalette(p);
     ui->menubar->setStyleSheet(QString("background-color: #2e2f30; color: white;"));
-    QPalette pal = ui->textEdit->palette();
+    QPalette pal = ui->plainTextEdit->palette();
     pal.setColor(QPalette::Active, QPalette::Text, Qt::white);
     pal.setColor(QPalette::Inactive, QPalette::Text, Qt::white);
     pal.setColor(QPalette::Active, QPalette::Base, QColor(QString("#2e2f30")));
     pal.setColor(QPalette::Inactive, QPalette::Base, QColor(QString("#2e2f30")));
-    ui->textEdit->setPalette(pal);
+    ui->plainTextEdit->setPalette(pal);
     ui->menu_File->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
     ui->menu_Edit->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
     ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
@@ -161,9 +160,15 @@ void MainWindow::updateTitle()
     setWindowTitle(title);
 }
 
-void MainWindow::closeEvent(QCloseEvent*)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
-    askForFileSaveAndClose();
+    if (askForFileSaveAndClose())
+    {
+        event->accept();
+        return;
+    } else {
+    event->ignore();
+    }
 }
 
 void MainWindow::slotNew()
@@ -171,7 +176,7 @@ void MainWindow::slotNew()
     if (askForFileSaveAndClose())
     {
         fileName = "Untitled";
-        ui->textEdit->clear();
+        ui->plainTextEdit->clear();
         setWindowModified(false);
         updateTitle();
     }
@@ -186,7 +191,7 @@ void MainWindow::slotOpen()
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         fileName = FileName;
-        ui->textEdit->setPlainText(file.readAll());
+        ui->plainTextEdit->setPlainText(file.readAll());
         file.close();
         setWindowModified(false);
         updateTitle();
@@ -206,7 +211,7 @@ void MainWindow::slotSave()
     {
         fileName = Filename;
         QTextStream writeStream(&file);
-        writeStream << ui->textEdit->toPlainText();
+        writeStream << ui->plainTextEdit->toPlainText();
         file.close();
         setWindowModified(false);
     }
@@ -262,11 +267,11 @@ void MainWindow::readSettings()
     bool isWordWrap = settings.value("/SETTING_WORD_WRAP", settingsDialog->isWordWrap()).toBool();
     settingsDialog->setWordWrap(isWordWrap);
     if (isWordWrap) {
-        ui->textEdit->setLineWrapMode(QTextEdit::WidgetWidth);
+        ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
         ui->action_Go_to_the->setDisabled(true);
     }
     else {
-        ui->textEdit->setLineWrapMode(QTextEdit::NoWrap);
+        ui->plainTextEdit->setLineWrapMode(QPlainTextEdit::NoWrap);
         ui->action_Go_to_the->setDisabled(false);
     }
     settings.endGroup();
@@ -299,15 +304,15 @@ void MainWindow::slotPreferencesAccepted()
 
 void MainWindow::slotOutNumberStringAndColumn()
 {
-    int line = ui->textEdit->textCursor() .blockNumber() + 1;
-    int column = ui->textEdit->textCursor().positionInBlock() + 1;
+    int line = ui->plainTextEdit->textCursor() .blockNumber() + 1;
+    int column = ui->plainTextEdit->textCursor().positionInBlock() + 1;
     ui->statusbar->showMessage(QString(tr("Line: %1  Column: %2")).arg(line).arg(column));
 }
 
 void MainWindow::slotShowDateAndTime()
 {
     QString dateAndTime = QDateTime::currentDateTime().toString(Qt::LocalDate);
-    QTextCursor textCursor = QTextCursor(ui->textEdit->document());
+    QTextCursor textCursor = QTextCursor(ui->plainTextEdit->document());
     textCursor.movePosition(QTextCursor::End);
     textCursor.insertText(dateAndTime);
 }
@@ -318,12 +323,12 @@ void MainWindow::slotGoToTheLine()
     int NumberStr = QInputDialog::getInt(this, QString(tr("Go to the line")), QString(tr("Line number")), 0, 0, 2147483647, 1, &ok);
     if (ok)
     {
-        if (NumberStr > ui->textEdit-> document()->lineCount()) QMessageBox::information(this, tr("Go to the line"), tr("The line number exceeds the total number of lines"));
+        if (NumberStr > ui->plainTextEdit-> document()->lineCount()) QMessageBox::information(this, tr("Go to the line"), tr("The line number exceeds the total number of lines"));
         else {
-            QTextCursor textCursor = QTextCursor(ui->textEdit->document());
+            QTextCursor textCursor = QTextCursor(ui->plainTextEdit->document());
             textCursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, NumberStr - 1);
             textCursor.movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 0);
-            ui->textEdit->setTextCursor(textCursor);
+            ui->plainTextEdit->setTextCursor(textCursor);
         }
     }
 }
@@ -332,7 +337,7 @@ void MainWindow::slotSetFont()
 {
     bool ok;
     font = QFontDialog::getFont(&ok, QFont() , this, QString(tr("Select font")));
-    if (ok) ui->textEdit->setFont(font);
+    if (ok) ui->plainTextEdit->setFont(font);
     zoomValue = 100;
 }
 
@@ -341,11 +346,11 @@ void MainWindow::slotSetColorText()
     QColor color = QColorDialog::getColor(QColor(), this, QString(tr("Select color of text")));
     if (color.isValid())
     {
-        QPalette p = ui->textEdit->palette();
+        QPalette p = ui->plainTextEdit->palette();
         p.setColor(QPalette::Active, QPalette::Text, color);
         p.setColor(QPalette::Inactive, QPalette::Text, color);
-        ui->textEdit->setPalette(p);
-//        ui->textEdit->setBackgroundVisible(false);
+        ui->plainTextEdit->setPalette(p);
+        ui->plainTextEdit->setBackgroundVisible(false);
     }
 }
 
@@ -354,10 +359,10 @@ void MainWindow::slotSetColorBackground()
     color = QColorDialog::getColor(QColor(), this, QString(tr("Select color of background")));
     if (color.isValid()) {
         checkingReplace();
-        QPalette p = ui->textEdit->palette();
+        QPalette p = ui->plainTextEdit->palette();
         p.setColor(QPalette::Inactive, QPalette::Base, color);
         p.setColor(QPalette::Active, QPalette::Base, color);
-        ui->textEdit->setPalette(p);
+        ui->plainTextEdit->setPalette(p);
     }
 }
 
@@ -365,7 +370,7 @@ void MainWindow::slotZoomIn()
 {
     if (zoomValue * 2 < 1677721600) {
     zoomValue *= 2;
-    ui->textEdit->zoomIn(2);
+    ui->plainTextEdit->zoomIn(2);
     ui->statusbar->showMessage(QString(tr("Zoom: %1%")).arg(zoomValue));
     } else
         ui->statusbar->showMessage(QString(tr("Zoom: %1%")).arg(zoomValue));
@@ -375,7 +380,7 @@ void MainWindow::slotZoomOut()
 {
     if (zoomValue / 2 > 0) {
     zoomValue /= 2;
-    ui->textEdit->zoomOut(2);
+    ui->plainTextEdit->zoomOut(2);
     ui->statusbar->showMessage(QString(tr("Zoom: %1%")).arg(zoomValue));
     } else
         ui->statusbar->showMessage(QString(tr("Zoom: %1%")).arg(zoomValue));
@@ -384,7 +389,7 @@ void MainWindow::slotZoomOut()
 void MainWindow::slotDefaultZoom()
 {
     zoomValue = 100;
-    ui->textEdit->setFont(font);
+    ui->plainTextEdit->setFont(font);
     ui->statusbar->showMessage(QString(tr("Zoom: %1%")).arg(zoomValue));
 }
 
@@ -400,17 +405,17 @@ void MainWindow::slotPreview()
 
 void MainWindow::printPreview(QPrinter *printer)
 {
-    ui->textEdit->print(printer);
+    ui->plainTextEdit->print(printer);
 }
 
 void MainWindow::slotPrint()
 {
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog *dialog = new QPrintDialog(&printer, this);
-    if (ui->textEdit->textCursor().hasSelection())
+    if (ui->plainTextEdit->textCursor().hasSelection())
         dialog->addEnabledOption(QAbstractPrintDialog::PrintSelection);
     dialog->setWindowTitle(tr("Print document"));
-    if (dialog->exec() == QDialog::Accepted) ui->textEdit->print(&printer);
+    if (dialog->exec() == QDialog::Accepted) ui->plainTextEdit->print(&printer);
     delete dialog;
 }
 
@@ -432,41 +437,41 @@ void MainWindow::slotFindText()
         QMessageBox::information(this, "Search", tr("The search bar is empty. <p>We have nothing to look for."), QMessageBox::Ok);
     }
     else {
-        ui->textEdit->textCursor().beginEditBlock();
+        ui->plainTextEdit->textCursor().beginEditBlock();
         QTextCharFormat format; format.setBackground(Qt::yellow);
         QString findString = searchDialog->getText();
         if (searchDialog->isFirstOccurrence() and searchDialog->isCaseSensitive())
         {
-            if (ui->textEdit->find(findString, QTextDocument::FindCaseSensitively)) {
-                ui->textEdit->textCursor().insertText(findString, format);
+            if (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(findString, format);
             }
         } else if (searchDialog->isFirstOccurrence() and !searchDialog->isCaseSensitive()) {
-                if (ui->textEdit->find(findString)) {
-                    ui->textEdit->textCursor().select(QTextCursor::BlockUnderCursor);
-                    ui->textEdit->textCursor().insertText(ui->textEdit->textCursor().selectedText(), format);
+                if (ui->plainTextEdit->find(findString)) {
+                    ui->plainTextEdit->textCursor().select(QTextCursor::BlockUnderCursor);
+                    ui->plainTextEdit->textCursor().insertText(ui->plainTextEdit->textCursor().selectedText(), format);
                 }
         } else if (searchDialog->isAllFollowingOccurrences() and searchDialog->isCaseSensitive()) {
-            while (ui->textEdit->find(findString, QTextDocument::FindCaseSensitively)) {
-                ui->textEdit->textCursor().insertText(findString, format);
+            while (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(findString, format);
             }
         } else if (searchDialog->isAllFollowingOccurrences() and !searchDialog->isCaseSensitive()){
-            while (ui->textEdit->find(findString)) {
-                ui->textEdit->textCursor().select(QTextCursor::BlockUnderCursor);
-                ui->textEdit->textCursor().insertText(ui->textEdit->textCursor().selectedText(), format);
+            while (ui->plainTextEdit->find(findString)) {
+                ui->plainTextEdit->textCursor().select(QTextCursor::BlockUnderCursor);
+                ui->plainTextEdit->textCursor().insertText(ui->plainTextEdit->textCursor().selectedText(), format);
             }
         } else if (searchDialog->isAllDocument() and searchDialog->isCaseSensitive()) {
-            ui->textEdit->moveCursor(QTextCursor::Start);
-            while (ui->textEdit->find(findString, QTextDocument::FindCaseSensitively)) {
-                ui->textEdit->textCursor().insertText(findString, format);
+            ui->plainTextEdit->moveCursor(QTextCursor::Start);
+            while (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(findString, format);
             }
         } else if (searchDialog->isAllDocument() and !searchDialog->isCaseSensitive()){
-            ui->textEdit->moveCursor(QTextCursor::Start);
-            while (ui->textEdit->find(findString)) {
-                ui->textEdit->textCursor().select(QTextCursor::BlockUnderCursor);
-                ui->textEdit->textCursor().insertText(ui->textEdit->textCursor().selectedText(), format);
+            ui->plainTextEdit->moveCursor(QTextCursor::Start);
+            while (ui->plainTextEdit->find(findString)) {
+                ui->plainTextEdit->textCursor().select(QTextCursor::BlockUnderCursor);
+                ui->plainTextEdit->textCursor().insertText(ui->plainTextEdit->textCursor().selectedText(), format);
             }
         }
-        ui->textEdit->textCursor().endEditBlock();
+        ui->plainTextEdit->textCursor().endEditBlock();
     }
 }
 
@@ -479,53 +484,53 @@ void MainWindow::slotReplaceText()
     }
     else {
         isReplace = true;
-        ui->textEdit->textCursor().beginEditBlock();
+        ui->plainTextEdit->textCursor().beginEditBlock();
         QTextCharFormat format; format.setBackground(Qt::green);
         QString findString = replaceDialog->getTextReplaced();
         QString replaceString = replaceDialog->getTextReplacing();
         if (replaceDialog->isFirstOccurrenceReplace() and replaceDialog->isCaseSensitiveReplace())
         {
-            if (ui->textEdit->find(findString, QTextDocument::FindCaseSensitively)) {
-                ui->textEdit->textCursor().insertText(replaceString, format);
+            if (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(replaceString, format);
             }
         } else if (replaceDialog->isFirstOccurrenceReplace() and !replaceDialog->isCaseSensitiveReplace()) {
-                if (ui->textEdit->find(findString)) {
-                    ui->textEdit->textCursor().insertText(replaceString, format);
+                if (ui->plainTextEdit->find(findString)) {
+                    ui->plainTextEdit->textCursor().insertText(replaceString, format);
                 }
         } else if (replaceDialog->isAllFollowingReplace() and replaceDialog->isCaseSensitiveReplace()) {
-            while (ui->textEdit->find(findString, QTextDocument::FindCaseSensitively)) {
-                ui->textEdit->textCursor().insertText(replaceString, format);
+            while (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(replaceString, format);
             }
         } else if (replaceDialog->isAllFollowingReplace() and !replaceDialog->isCaseSensitiveReplace()){
-            while (ui->textEdit->find(findString)) {
-                ui->textEdit->textCursor().insertText(replaceString, format);
+            while (ui->plainTextEdit->find(findString)) {
+                ui->plainTextEdit->textCursor().insertText(replaceString, format);
             }
         } else if (replaceDialog->isAllDocumentReplace() and replaceDialog->isCaseSensitiveReplace()) {
-            ui->textEdit->moveCursor(QTextCursor::Start);
-            while (ui->textEdit->find(findString, QTextDocument::FindCaseSensitively)) {
-                ui->textEdit->textCursor().insertText(replaceString, format);
+            ui->plainTextEdit->moveCursor(QTextCursor::Start);
+            while (ui->plainTextEdit->find(findString, QTextDocument::FindCaseSensitively)) {
+                ui->plainTextEdit->textCursor().insertText(replaceString, format);
             }
         } else if (replaceDialog->isAllDocumentReplace() and !replaceDialog->isCaseSensitiveReplace()){
-            ui->textEdit->moveCursor(QTextCursor::Start);
-            while (ui->textEdit->find(findString)) {
-                ui->textEdit->textCursor().insertText(replaceString, format);
+            ui->plainTextEdit->moveCursor(QTextCursor::Start);
+            while (ui->plainTextEdit->find(findString)) {
+                ui->plainTextEdit->textCursor().insertText(replaceString, format);
             }
         }
-        ui->textEdit->textCursor().endEditBlock();
+        ui->plainTextEdit->textCursor().endEditBlock();
     }
 }
 
 void MainWindow::checkingReplace()
 {
     if (isReplace) {
-    QTextCursor cursor(ui->textEdit->textCursor());
+    QTextCursor cursor(ui->plainTextEdit->textCursor());
     const int cursorPosition = cursor.position();
-    QString document = ui->textEdit->document()->toPlainText();
-    ui->textEdit->clear();
+    QString document = ui->plainTextEdit->document()->toPlainText();
+    ui->plainTextEdit->clear();
     QTextCharFormat highlight; highlight.setBackground(QColor(color));
-    ui->textEdit->textCursor().insertText(document, highlight);
+    ui->plainTextEdit->textCursor().insertText(document, highlight);
     cursor.setPosition(cursorPosition);
-    ui->textEdit->setTextCursor(cursor);
+    ui->plainTextEdit->setTextCursor(cursor);
     }
 }
 
