@@ -395,12 +395,14 @@ void MainWindow::slotDefaultZoom()
 
 void MainWindow::slotPreview()
 {
+#ifndef QT_NO_PRINTER
     QPrinter printer(QPrinter::ScreenResolution);
     printer.setPageSize(QPrinter::A4);
     printer.setOrientation(QPrinter::Landscape);
     QPrintPreviewDialog preview(&printer, this);
     connect(&preview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(printPreview(QPrinter*)));
     preview.exec();
+#endif
 }
 
 void MainWindow::printPreview(QPrinter *printer)
@@ -410,6 +412,7 @@ void MainWindow::printPreview(QPrinter *printer)
 
 void MainWindow::slotPrint()
 {
+#ifndef QT_NO_PRINTER
     QPrinter printer(QPrinter::HighResolution);
     QPrintDialog *dialog = new QPrintDialog(&printer, this);
     if (ui->plainTextEdit->textCursor().hasSelection())
@@ -417,6 +420,7 @@ void MainWindow::slotPrint()
     dialog->setWindowTitle(tr("Print document"));
     if (dialog->exec() == QDialog::Accepted) ui->plainTextEdit->print(&printer);
     delete dialog;
+#endif
 }
 
 void MainWindow::showSearchDialog()
