@@ -12,6 +12,8 @@
 #include <QFontDialog>
 #include <QInputDialog>
 #include <QTextCodec>
+#include <QTranslator>
+#include <QLocale>
 #ifndef QT_NO_PRINTER
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
@@ -64,6 +66,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
      ui->action_Print->setIcon(QIcon(":/actions/resources/images/print.ico"));
       ui->action_Find->setIcon(QIcon(":/actions/resources/images/find.ico"));
       ui->action_Replace->setIcon(QIcon(":/actions/resources/images/replace.ico"));
+      ui->menu_Language->setIcon(QIcon(":/actions/resources/images/language.ico"));
+      ui->action_Russian->setIcon(QIcon(":/actions/resources/images/russian.ico"));
+      ui->action_English->setIcon(QIcon(":/actions/resources/images/english.ico"));
 
     connect(ui->action_New, SIGNAL(triggered()), this, SLOT(slotNew()), Qt::UniqueConnection);
     connect(ui->action_Open, SIGNAL(triggered()), this, SLOT(slotOpen()), Qt::UniqueConnection);
@@ -88,12 +93,59 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Default_zoom, SIGNAL(triggered()), this, SLOT(slotDefaultZoom()));
     connect(ui->action_Preview, SIGNAL(triggered()), this, SLOT(slotPreview()), Qt::UniqueConnection);
     connect(ui->action_Print, SIGNAL(triggered()), this, SLOT(slotPrint()), Qt::UniqueConnection);
-    slotNew();
-    saveInputSettings();
+    connect(ui->action_English, SIGNAL(triggered()), this, SLOT(slotEnglishLanguage()), Qt::UniqueConnection);
+    connect(ui->action_Russian, SIGNAL(triggered()), this, SLOT(slotRussianLanguage()), Qt::UniqueConnection);
+    applyInputSettings();
     readSettings();
+    applyLanguageSetting();
 }
 
-void MainWindow::saveInputSettings()
+void MainWindow::applyLanguageSetting()
+{
+    settings.beginGroup("/SETTINGS_GROUP_VIEW");
+    if (settings.value("/SETTING_LANGUAGE_RUSSIAN", ui->action_Russian->isEnabled()).toBool())
+        slotRussianLanguage();
+    else slotEnglishLanguage();
+    settings.endGroup();
+}
+
+void MainWindow::setLanguageSetting()
+{
+    settings.beginGroup("/SETTINGS_GROUP_VIEW");
+    settings.setValue("/SETTING_LANGUAGE_ENGLISH", !ui->action_English->isEnabled());
+    settings.setValue("/SETTING_LANGUAGE_RUSSIAN", !ui->action_Russian->isEnabled());
+    settings.endGroup();
+}
+
+void MainWindow::slotRussianLanguage()
+{
+    ui->action_Russian->setDisabled(true);
+    ui->action_English->setDisabled(false);
+    setLanguageSetting();
+    askForFileSaveAndClose();
+    QTranslator translator;
+    translator.load(QString("%1/languages/QReader_ru").arg(qApp->applicationDirPath()));
+    qApp->installTranslator(&translator);
+    ui->retranslateUi(this);
+    setWindowModified(false);
+    slotNew();
+}
+
+void MainWindow::slotEnglishLanguage()
+{
+    ui->action_English->setDisabled(true);
+    ui->action_Russian->setDisabled(false);
+    setLanguageSetting();
+    askForFileSaveAndClose();
+    QTranslator translator;
+    translator.load(QString("%1/languages/QReader_en").arg(qApp->applicationDirPath()));
+    qApp->installTranslator(&translator);
+    ui->retranslateUi(this);
+    setWindowModified(false);
+    slotNew();
+}
+
+void MainWindow::applyInputSettings()
 {
     settings.beginGroup("/SETTINGS_GROUP_VIEW");
     if (settings.value("/SETTING_LIGHT_THEME", settingsDialog->isThemeLight()).toBool()) { isLight = true, isDark = false; }
@@ -130,6 +182,7 @@ void MainWindow::lightTheme()
     ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
     ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
     ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
+    ui->menu_Language->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
     ui->menu_View->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
     ui->Settings->setStyleSheet("QMenu::item::selected { background-color: #90c8f6; }");
 }
@@ -155,14 +208,15 @@ void MainWindow::darkTheme()
     ui->menu_Format->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
     ui->menu_About->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
     ui->menu_Color->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
+    ui->menu_Language->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
     ui->menu_View->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
     ui->Settings->setStyleSheet("QMenu::item::selected { background-color: #3c5670; }");
 }
 
 void MainWindow::updateTitle()
 {
-    QString title = QString(tr(" - %1[*]")).arg(fileName);
-    setWindowTitle(windowTitle() + title);
+    QString title = QString(tr("TextEditor - %1[*]")).arg(fileName);
+    setWindowTitle(title);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -546,6 +600,7 @@ void MainWindow::checkingReplace()
 MainWindow::~MainWindow()
 {
     writeSettings();
+    setLanguageSetting();
     delete ui;
     delete settingsDialog;
     delete searchDialog;

@@ -41,8 +41,10 @@ private:
     QSettings settings;
     void readSettings();
     void writeSettings();
-    void saveInputSettings();
+    void applyInputSettings();
     void checkingReplace();
+    void setLanguageSetting();
+    void applyLanguageSetting();
 private slots:
     void slotNew();
     void slotOpen();
@@ -67,5 +69,7 @@ private slots:
     void showReplaceDialog();
     void slotFindText();
     void slotReplaceText();
+    void slotRussianLanguage();
+    void slotEnglishLanguage();
 };
 #endif // MAINWINDOW_H
