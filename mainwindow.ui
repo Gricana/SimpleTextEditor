@@ -91,7 +91,15 @@
     <property name="title">
      <string>&amp;Settings</string>
     </property>
+    <widget class="QMenu" name="menu_Language">
+     <property name="title">
+      <string>&amp;Language</string>
+     </property>
+     <addaction name="action_Russian"/>
+     <addaction name="action_English"/>
+    </widget>
     <addaction name="action_Settings"/>
+    <addaction name="menu_Language"/>
    </widget>
    <widget class="QMenu" name="menu_View">
     <property name="title">
@@ -535,6 +543,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="action_Russian">
+   <property name="text">
+    <string>&amp;Russian</string>
+   </property>
+  </action>
+  <action name="action_English">
+   <property name="text">
+    <string>&amp;English</string>
    </property>
   </action>
  </widget>
