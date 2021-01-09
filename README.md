@@ -1,12 +1,12 @@
 My motivation for developing this app
 
-I decided to write this "Simple Text Editor" because I decided to further develop my skills in C++ (I was already familiar with it), as well as get my first experience in creating a graphical user interface using the Qt framework (because of its convenience and the ability to create cross-platform applications with it - from desktop to iOS/Android applications).
+I decided to write this "Simple Text Editor" because I need to further develop my skills in C++ (I was already familiar with it), as well as get my first experience in creating a GUI using the Qt framework (because of its convenience and the ability to create cross-platform applications with it - from desktop to iOS/Android applications).
 
 Why Notepad?
 
 Because I've been using a standard Windows application for a long time, and I've been waiting for the user interface (namely the design) to be updated with each system update. But that didn't happen. Then I thought about creating my own software, which would have the ability to dynamically change its design at the request of the user.
 
-In this regard, it is not necessary to assume that I have not used or do not use other text editors (Notepad++, VS Code, etc.). But, in my opinion, they look less attractive, but better than the standard notepad from Microsoft.
+In this regard, it is not necessary to assume that I have not used or do not use other text editors (Notepad++, Sublime Text, etc.). But, in my opinion, they look less attractive, but better than the standard notepad from Microsoft.
 
 The main features of my app are:
 - ability to change the theme of the app (dark, light);
