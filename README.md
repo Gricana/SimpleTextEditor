@@ -1,31 +1,31 @@
-Моя мотивация при разработке данного приложения
+My motivation for developing this app
 
-Я решил написать этот "Simple Text Editor", потому что я решил далее развить свои навыки в С++ (я уже ранее был с ним знаком), а также получить первый опыт в создании графического пользовательского интерфейса с использованием фреймворка Qt (из-за его удобства и возможности создавать с помощью него кроссплатформенные приложения - от десктопа до приложений для iOS/Android).
+I decided to write this "Simple Text Editor" because I decided to further develop my skills in C++ (I was already familiar with it), as well as get my first experience in creating a graphical user interface using the Qt framework (because of its convenience and the ability to create cross-platform applications with it - from desktop to iOS/Android applications).
 
-Почему именно Блокнот?
+Why Notepad?
 
-Потому что я долгое время пользовался стандартным приложением от Windows, и долго ждал обновления пользовательского интерфейса (а именно дизайна) с каждым обновлением системы. Но этого не происходило. Тогда я задумался о создании своего собственного софта, который имел бы возможность динамически менять свой дизайн по желанию пользователя.
+Because I've been using a standard Windows application for a long time, and I've been waiting for the user interface (namely the design) to be updated with each system update. But that didn't happen. Then I thought about creating my own software, which would have the ability to dynamically change its design at the request of the user.
 
-Не стоит в связи с этим полагать, что я не пользовался или не пользуюсь другими текстовыми редакторами (Notepad++, VS Code и т.д.). Но, по моему мнению, они выглядят менее привлекательно, но получше, чем стандартный блокнот от Microsoft.
+In this regard, it is not necessary to assume that I have not used or do not use other text editors (Notepad++, VS Code, etc.). But, in my opinion, they look less attractive, but better than the standard notepad from Microsoft.
 
-Основными особенностями моего приложения являются:
-- возможность менять тему приложения (тёмная, светлая);
-- возможность менять фон текстовой области и самого шрифта;
-- возможность менять сам шрифт текста;
-- последующий запуск приложения с его предыдущими настройками;
-- возможность расширять активную область (убирать ненужный для пользователя интерфейс);
-- и следующие стандартные функции: поиск и замена текста (с цветовым выделением найденного/заменённого слова, печать документа, предпросмотр документа перед печатью.
+The main features of my app are:
+- ability to change the theme of the app (dark, light);
+- ability to change the background of the text area and the font itself;
+- ability to change the text font itself;
+- subsequent launch of the application with its previous settings;
+- ability to expand the active area (remove unnecessary user interface);
+- and the following standard functions: search and replace text (with color selection of the found / replaced word, print the document, preview the document before printing.
 
-Можно увидеть, что основной упор я при реализации данного приложения делал на улучшение дизайна по сравнению с вышеназванными редакторами.
+You can see that the main focus of my implementation of this application was on improving the design compared to the above-mentioned editors.
 
-📌 Приложение в данный момент находится в стадии активной разработки и со временем будет только улучшаться.
+📌The app is currently under active development and will only improve over time.
 
-Горячие клавиши:
-- F1 - настройки
-- F5 - отображение в редактируемом поле текущей даты и времени
-- Ctrl + P - печать
-- Ctrl + "+", Ctrl + "-", Ctrl + "0" - увеличение, уменьшение и масштаб по умолчанию соответственно
-- Ctrl + Shift + P - предпросмотр документа перед печатью
-- Ctrl + H - заменить слово
-- Ctrl + F - найти слово
-- Ctrl + G - перейти к строке
+Keyboard shortcuts:
+- F1-Settings
+- F5-display the current date and time in the editable field
+- Ctrl + P-Print
+- Ctrl +"+", Ctrl +" -", Ctrl + " 0 " - zoom in, zoom out and zoom out by default, respectively
+- Ctrl + Shift + P - preview the document before printing
+- Ctrl + H-replace word
+- Ctrl + F-find a word
+- Ctrl + G-go to line
