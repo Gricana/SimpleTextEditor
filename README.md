@@ -29,3 +29,6 @@ Keyboard shortcuts:
 - Ctrl + H-replace word
 - Ctrl + F-find a word
 - Ctrl + G-go to line
+
+You can run the application on your computer by downloading the archive from this repository SimpleTextEditor.rar
+The application is cross-platform, as in the current archive I have collected all the necessary plugins and compiler libraries for its stable operation.
