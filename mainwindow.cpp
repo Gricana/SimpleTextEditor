@@ -13,7 +13,6 @@
 #include <QInputDialog>
 #include <QTextCodec>
 #include <QTranslator>
-#include <QLocale>
 #ifndef QT_NO_PRINTER
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
@@ -243,7 +242,7 @@ void MainWindow::slotNew()
 
 void MainWindow::slotOpen()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, tr("Open file . . . "), QDir::homePath(), tr("Text files (*.txt)::All files (*.*)"));
+    QString FileName = QFileDialog::getOpenFileName(this, tr("Open file . . . "), QDir::homePath(), tr("Text files (*.txt);; Header files (*.h);; Source files (*.cpp);; Data files (*.dat);; CSV-files (*.csv);; All files (*.*)"));
     if (fileName.isEmpty()) { return; }
     if (!askForFileSaveAndClose()){ return; }
     QFile file(FileName);
@@ -500,6 +499,8 @@ void MainWindow::slotFindText()
         QMessageBox::information(this, "Search", tr("The search bar is empty. <p>We have nothing to look for."), QMessageBox::Ok);
     }
     else {
+        QTextCursor cursor(ui->plainTextEdit->textCursor());
+        const int cursorPosition = cursor.position();
         ui->plainTextEdit->textCursor().beginEditBlock();
         QTextCharFormat format; format.setBackground(Qt::yellow);
         QString findString = searchDialog->getText();
@@ -535,6 +536,8 @@ void MainWindow::slotFindText()
             }
         }
         ui->plainTextEdit->textCursor().endEditBlock();
+        cursor.setPosition(cursorPosition);
+        ui->plainTextEdit->setTextCursor(cursor);
     }
 }
 
@@ -546,6 +549,8 @@ void MainWindow::slotReplaceText()
         QMessageBox::information(this, tr("Replace"), tr("You didn't enter one of the words. <p>The operation cannot be performed"), QMessageBox::Ok);
     }
     else {
+        QTextCursor cursor(ui->plainTextEdit->textCursor());
+        const int cursorPosition = cursor.position();
         isReplace = true;
         ui->plainTextEdit->textCursor().beginEditBlock();
         QTextCharFormat format; format.setBackground(Qt::green);
@@ -580,6 +585,8 @@ void MainWindow::slotReplaceText()
             }
         }
         ui->plainTextEdit->textCursor().endEditBlock();
+        cursor.setPosition(cursorPosition);
+        ui->plainTextEdit->setTextCursor(cursor);
     }
 }
 
