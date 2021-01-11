@@ -450,11 +450,6 @@
     <string>Ctrl+0</string>
    </property>
   </action>
-  <action name="action_Word_wrap">
-   <property name="text">
-    <string>&amp;Word wrap</string>
-   </property>
-  </action>
   <action name="action_Label">
    <property name="text">
     <string>&amp;Label</string>
@@ -480,53 +475,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
-   </property>
-  </action>
-  <action name="action_Left">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Left</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+L</string>
-   </property>
-   <property name="visible">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="action_Center">
-   <property name="text">
-    <string>&amp;Center</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+E</string>
-   </property>
-   <property name="visible">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="action_Right">
-   <property name="text">
-    <string>&amp;Right</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
-   </property>
-   <property name="visible">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="action_Justify">
-   <property name="text">
-    <string>&amp;Justify</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+J</string>
-   </property>
-   <property name="visible">
-    <bool>true</bool>
    </property>
   </action>
   <action name="action_Find">
