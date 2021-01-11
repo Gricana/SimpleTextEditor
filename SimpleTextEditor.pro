@@ -39,7 +39,7 @@ RESOURCES += resources.qrc
 RC_FILE += icon.rc
 
 TRANSLATIONS = QReader_ru.ts \
-                           QReader_en.ts
+                           QReader_en.ts \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
