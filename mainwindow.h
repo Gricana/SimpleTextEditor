@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QApplication>
 #include <QPrinter>
 #include <QSettings>
 class SettingsDialog;

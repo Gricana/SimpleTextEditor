@@ -13,6 +13,7 @@
 #include <QInputDialog>
 #include <QTextCodec>
 #include <QTranslator>
+#include <QProcess>
 #ifndef QT_NO_PRINTER
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
 {
     ui->setupUi(this);
 
-    QTextCodec* codec = QTextCodec::codecForName("CP1251");
+    QTextCodec* codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
 
     setWindowIcon(QIcon(":/actions/resources/images/text_editor_icon.ico"));
@@ -94,9 +95,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Print, SIGNAL(triggered()), this, SLOT(slotPrint()), Qt::UniqueConnection);
     connect(ui->action_English, SIGNAL(triggered()), this, SLOT(slotEnglishLanguage()), Qt::UniqueConnection);
     connect(ui->action_Russian, SIGNAL(triggered()), this, SLOT(slotRussianLanguage()), Qt::UniqueConnection);
-    applyLanguageSetting();
+//    applyLanguageSetting();
     applyInputSettings();
     readSettings();
+    setWindowModified(false);
+    slotNew();
 }
 
 void MainWindow::applyLanguageSetting()
@@ -120,11 +123,9 @@ void MainWindow::slotRussianLanguage()
     ui->action_English->setDisabled(false);
     setLanguageSetting();
     askForFileSaveAndClose();
-    QTranslator translator, qtBaseTranslator;
+    QTranslator translator;
     translator.load(QString("%1/languages/QReader_ru").arg(QCoreApplication::applicationDirPath()));
-    qtBaseTranslator.load(QString("%1/languages/qtbase_ru").arg(QCoreApplication::applicationDirPath()));
     qApp->installTranslator(&translator);
-    qApp->installTranslator(&qtBaseTranslator);
     ui->retranslateUi(this);
     settingsDialog->setRussianLanguage();
     searchDialog->setRussianLanguage();
@@ -140,8 +141,10 @@ void MainWindow::slotEnglishLanguage()
     ui->action_Russian->setDisabled(false);
     setLanguageSetting();
     askForFileSaveAndClose();
+//    qApp->quit();
+//    QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
     QTranslator translator;
-    translator.load(QString(":/actions/QReader_en"));
+    translator.load(QString(QString("%1/languages/QReader_en").arg(QCoreApplication::applicationDirPath())));
     qApp->installTranslator(&translator);
     ui->retranslateUi(this);
     settingsDialog->setEnglishLanguage();
@@ -289,7 +292,7 @@ bool MainWindow::askForFileSaveAndClose()
 {
     if (isWindowModified())
     {
-        int result = QMessageBox::question(this, tr("Save changes"), QString(tr("File %1 is modified. Do you want to save your changes?")).arg(fileName), QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
+        int result = QMessageBox::question(this, tr("Save changes"), QString(tr("File %1 is modified. Do you want to save your changes?")).arg(fileName), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if (QMessageBox::Yes == result) { slotSave(); }
         else {
             if (QMessageBox::Cancel == result) { return false; }
@@ -503,7 +506,7 @@ void MainWindow::slotFindText()
 {
     if (searchDialog->getText().isEmpty())
     {
-        QMessageBox::information(this, "Search", tr("The search bar is empty. <p>We have nothing to look for."), QMessageBox::Ok);
+        QMessageBox::information(this, tr("Search"), tr("The search bar is empty. <p>We have nothing to look for."), QMessageBox::Ok);
     }
     else {
         QTextCursor cursor(ui->plainTextEdit->textCursor());
