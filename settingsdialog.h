@@ -24,6 +24,8 @@ public:
     void setLightTheme(bool check);
     void setDarkTheme(bool check);
     void setWordWrap(bool check);
+    void setRussianLanguage();
+    void setEnglishLanguage();
 private:
     Ui::SettingsDialog *ui;
 };
