@@ -20,6 +20,8 @@ public:
     bool isAllFollowingReplace();
     bool isAllDocumentReplace();
     bool isCaseSensitiveReplace();
+    void setRussianLanguage();
+    void setEnglishLanguage();
 
 private:
     Ui::ReplaceDialog *ui;

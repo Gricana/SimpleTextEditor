@@ -120,10 +120,16 @@ void MainWindow::slotRussianLanguage()
     ui->action_English->setDisabled(false);
     setLanguageSetting();
     askForFileSaveAndClose();
-    QTranslator translator;
-    translator.load(QString("%1/languages/QReader_ru").arg(qApp->applicationDirPath()));
+    QTranslator translator, qtBaseTranslator;
+    translator.load(QString("%1/languages/QReader_ru").arg(QCoreApplication::applicationDirPath()));
+    qtBaseTranslator.load(QString("%1/languages/qtbase_ru").arg(QCoreApplication::applicationDirPath()));
     qApp->installTranslator(&translator);
+    qApp->installTranslator(&qtBaseTranslator);
     ui->retranslateUi(this);
+    settingsDialog->setRussianLanguage();
+    searchDialog->setRussianLanguage();
+    replaceDialog->setRussianLanguage();
+
     setWindowModified(false);
     slotNew();
 }
@@ -135,9 +141,12 @@ void MainWindow::slotEnglishLanguage()
     setLanguageSetting();
     askForFileSaveAndClose();
     QTranslator translator;
-    translator.load(QString("%1/languages/QReader_en").arg(qApp->applicationDirPath()));
+    translator.load(QString(":/actions/QReader_en"));
     qApp->installTranslator(&translator);
     ui->retranslateUi(this);
+    settingsDialog->setEnglishLanguage();
+    replaceDialog->setEnglishLanguage();
+    searchDialog->setEnglishLanguage();
     setWindowModified(false);
     slotNew();
 }

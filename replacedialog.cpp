@@ -1,11 +1,28 @@
 #include "replacedialog.h"
 #include "ui_replacedialog.h"
+#include <QTranslator>
 
 ReplaceDialog::ReplaceDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ReplaceDialog)
 {
     ui->setupUi(this);
+}
+
+void ReplaceDialog::setRussianLanguage()
+{
+    QTranslator translator;
+    translator.load(QString("%1/languages/QReader_ru").arg(QCoreApplication::applicationDirPath()));
+    qApp->installTranslator(&translator);
+    ui->retranslateUi(this);
+}
+
+void ReplaceDialog::setEnglishLanguage()
+{
+    QTranslator translator;
+    translator.load(QString("%1/languages/QReader_en").arg(QCoreApplication::applicationDirPath()));
+    qApp->installTranslator(&translator);
+    ui->retranslateUi(this);
 }
 
 QString ReplaceDialog::getTextReplaced()

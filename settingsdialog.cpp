@@ -1,11 +1,28 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
+#include <QTranslator>
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
+}
+
+void SettingsDialog::setRussianLanguage()
+{
+    QTranslator translator;
+    translator.load(QString("%1/languages/QReader_ru").arg(QCoreApplication::applicationDirPath()));
+    qApp->installTranslator(&translator);
+    ui->retranslateUi(this);
+}
+
+void SettingsDialog::setEnglishLanguage()
+{
+    QTranslator translator;
+    translator.load(QString("%1/languages/QReader_en").arg(QCoreApplication::applicationDirPath()));
+    qApp->installTranslator(&translator);
+    ui->retranslateUi(this);
 }
 
 bool SettingsDialog::isShowToolBar() const

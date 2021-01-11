@@ -19,6 +19,8 @@ public:
     bool isFirstOccurrence();
     bool isAllFollowingOccurrences();
     bool isAllDocument();
+    void setRussianLanguage();
+    void setEnglishLanguage();
 
 private:
     Ui::SearchDialog *ui;

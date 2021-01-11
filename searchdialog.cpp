@@ -1,11 +1,28 @@
 #include "searchdialog.h"
 #include "ui_searchdialog.h"
+#include <QTranslator>
 
 SearchDialog::SearchDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SearchDialog)
 {
     ui->setupUi(this);
+}
+
+void SearchDialog::setRussianLanguage()
+{
+    QTranslator translator;
+    translator.load(QString("%1/languages/QReader_ru").arg(QCoreApplication::applicationDirPath()));
+    qApp->installTranslator(&translator);
+    ui->retranslateUi(this);
+}
+
+void SearchDialog::setEnglishLanguage()
+{
+    QTranslator translator;
+    translator.load(QString("%1/languages/QReader_en").arg(QCoreApplication::applicationDirPath()));
+    qApp->installTranslator(&translator);
+    ui->retranslateUi(this);
 }
 
 QString SearchDialog::getText()
