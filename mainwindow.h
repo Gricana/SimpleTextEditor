@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QApplication>
 #include <QPrinter>
 #include <QSettings>
+#include <QTranslator>
 class SettingsDialog;
 class SearchDialog;
 class ReplaceDialog;

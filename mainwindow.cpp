@@ -12,7 +12,6 @@
 #include <QFontDialog>
 #include <QInputDialog>
 #include <QTextCodec>
-#include <QTranslator>
 #ifndef QT_NO_PRINTER
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
@@ -108,7 +107,7 @@ void MainWindow::applyLanguageSetting()
     settings.beginGroup("/SETTINGS_GROUP_VIEW");
     if (settings.value("/SETTING_LANGUAGE_RUSSIAN", ui->action_Russian->isEnabled()).toBool())
         slotRussianLanguage();
-    else
+    if (settings.value("/SETTING_LANGUAGE_ENGLISH", ui->action_English->isEnabled()).toBool())
         slotEnglishLanguage();
     settings.endGroup();
 }
@@ -629,7 +628,5 @@ MainWindow::~MainWindow()
     delete settingsDialog;
     delete searchDialog;
     delete replaceDialog;
-    delete translatorRussian;
-    if (translatorEnglish != nullptr) delete translatorEnglish;
 }
 
