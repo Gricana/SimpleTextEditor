@@ -13,7 +13,6 @@
 #include <QInputDialog>
 #include <QTextCodec>
 #include <QTranslator>
-#include <QProcess>
 #ifndef QT_NO_PRINTER
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
@@ -100,18 +99,19 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Russian, SIGNAL(triggered()), this, SLOT(slotRussianLanguage()), Qt::UniqueConnection);
     applyLanguageSetting();
     applyInputSettings();
-    readSettings();
-    setWindowModified(false);
-    slotNew();
+    readSettings();;
 }
 
 void MainWindow::applyLanguageSetting()
 {
+    settings.beginGroup("/SETTINGS_GROUP_VIEW");
     if (settings.value("/SETTING_LANGUAGE_RUSSIAN", ui->action_Russian->isEnabled()).toBool())
     {
-        translatorRussian = new QTranslator(this);
         slotRussianLanguage();
-    } else slotEnglishLanguage();
+    }
+    else
+        slotEnglishLanguage();
+    settings.endGroup();
 }
 
 void MainWindow::setLanguageSetting()
@@ -128,6 +128,7 @@ void MainWindow::slotRussianLanguage()
     ui->action_English->setDisabled(false);
     setLanguageSetting();
     askForFileSaveAndClose();
+    translatorRussian = new QTranslator(this);
     translatorRussian->load(QString("%1/languages/QReader_ru").arg(QCoreApplication::applicationDirPath()));
     qApp->installTranslator(translatorRussian);
     ui->retranslateUi(this);
