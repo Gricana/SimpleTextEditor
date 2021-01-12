@@ -211,8 +211,8 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="390"/>
-        <location filename="mainwindow.cpp" line="391"/>
-        <location filename="mainwindow.cpp" line="394"/>
+        <location filename="mainwindow.cpp" line="396"/>
+        <location filename="mainwindow.cpp" line="399"/>
         <source>Go to the line</source>
         <translation>Перейти к строке</translation>
     </message>
@@ -376,132 +376,132 @@
         <translation>&amp;Английский</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="163"/>
+        <location filename="mainwindow.cpp" line="164"/>
         <source>This program has been started </source>
         <translation>Эта программа была запущена </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="163"/>
+        <location filename="mainwindow.cpp" line="164"/>
         <source> times</source>
         <translation> раз</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="227"/>
+        <location filename="mainwindow.cpp" line="228"/>
         <source>TextEditor - %1[*]</source>
         <translation>Текстовый редактор - %1[*]</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="255"/>
+        <location filename="mainwindow.cpp" line="256"/>
         <source>Open file . . . </source>
         <translation>Открытие файла</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="255"/>
+        <location filename="mainwindow.cpp" line="256"/>
         <source>Text files (*.txt);; Header files (*.h);; Source files (*.cpp);; Data files (*.dat);; CSV-files (*.csv);; All files (*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="268"/>
-        <location filename="mainwindow.cpp" line="287"/>
+        <location filename="mainwindow.cpp" line="269"/>
+        <location filename="mainwindow.cpp" line="292"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="268"/>
+        <location filename="mainwindow.cpp" line="269"/>
         <source>Could not open file %1 for reading</source>
         <translation>Невозможно открыть файл %1 для чтения</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="275"/>
+        <location filename="mainwindow.cpp" line="276"/>
         <source>Save file . . . </source>
         <translation>Сохранение файла ...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="275"/>
+        <location filename="mainwindow.cpp" line="276"/>
         <source>Text files (*.txt);;All files (*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="287"/>
+        <location filename="mainwindow.cpp" line="292"/>
         <source>Could not open file %1 for writing</source>
         <translation>Невозможно открыть файл %1 для записи</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="295"/>
+        <location filename="mainwindow.cpp" line="300"/>
         <source>Save changes</source>
         <translation>Сохранение изменений</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="295"/>
+        <location filename="mainwindow.cpp" line="300"/>
         <source>File %1 is modified. Do you want to save your changes?</source>
         <translation>Файл %1 изменён. Вы хотите сохранить изменения?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="306"/>
+        <location filename="mainwindow.cpp" line="311"/>
         <source>About app</source>
         <translation>О приложении</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="377"/>
+        <location filename="mainwindow.cpp" line="382"/>
         <source>Line: %1  Column: %2</source>
         <translation>Строка: %1 Столбец: %2</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="391"/>
+        <location filename="mainwindow.cpp" line="396"/>
         <source>Line number</source>
         <translation>Номер строки</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="394"/>
+        <location filename="mainwindow.cpp" line="399"/>
         <source>The line number exceeds the total number of lines</source>
         <translation>Номер строки превышает общее количество строк в файле</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="407"/>
+        <location filename="mainwindow.cpp" line="412"/>
         <source>Select font</source>
         <translation>Выбрать шрифт</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="414"/>
+        <location filename="mainwindow.cpp" line="419"/>
         <source>Select color of text</source>
         <translation>Выбрать цвет текста</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="427"/>
+        <location filename="mainwindow.cpp" line="432"/>
         <source>Select color of background</source>
         <translation>Выбрать цвет фона</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="442"/>
-        <location filename="mainwindow.cpp" line="444"/>
-        <location filename="mainwindow.cpp" line="452"/>
-        <location filename="mainwindow.cpp" line="454"/>
-        <location filename="mainwindow.cpp" line="461"/>
+        <location filename="mainwindow.cpp" line="447"/>
+        <location filename="mainwindow.cpp" line="449"/>
+        <location filename="mainwindow.cpp" line="457"/>
+        <location filename="mainwindow.cpp" line="459"/>
+        <location filename="mainwindow.cpp" line="466"/>
         <source>Zoom: %1%</source>
         <translation>Масштаб: %1%</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="488"/>
+        <location filename="mainwindow.cpp" line="493"/>
         <source>Print document</source>
         <translation>Печать документа</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="509"/>
+        <location filename="mainwindow.cpp" line="514"/>
         <source>The search bar is empty. &lt;p&gt;We have nothing to look for.</source>
         <translation>Поисковая строка пуста. &lt;p&gt;Мы не можем ничего найти.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="509"/>
+        <location filename="mainwindow.cpp" line="514"/>
         <source>Search</source>
         <translation>Поиск</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="559"/>
+        <location filename="mainwindow.cpp" line="564"/>
         <source>Replace</source>
         <translation>Замена</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="559"/>
+        <location filename="mainwindow.cpp" line="564"/>
         <source>You didn&apos;t enter one of the words. &lt;p&gt;The operation cannot be performed</source>
         <translation>Вы не ввели одно из слов. &lt;p&gt; Операция не может быть выполнена</translation>
     </message>
@@ -514,34 +514,44 @@
         <translation>Замена</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="67"/>
+        <location filename="replacedialog.ui" line="48"/>
         <source>First occurrence</source>
         <translation>Первое вхождение</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="83"/>
+        <location filename="replacedialog.ui" line="64"/>
         <source>All document</source>
         <translation>Весь документ</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="96"/>
+        <location filename="replacedialog.ui" line="77"/>
         <source>Replaced:</source>
         <translation>Заменяемое:</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="109"/>
+        <location filename="replacedialog.ui" line="90"/>
         <source>All following occurences</source>
         <translation>Все последующие вхождения:</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="127"/>
+        <location filename="replacedialog.ui" line="108"/>
         <source>Case-sensitive</source>
         <translation>С учётом регистра</translation>
     </message>
     <message>
-        <location filename="replacedialog.ui" line="143"/>
+        <location filename="replacedialog.ui" line="124"/>
         <source>Replacing:</source>
         <translation>Заменяющее:</translation>
+    </message>
+    <message>
+        <location filename="replacedialog.ui" line="150"/>
+        <source>OK</source>
+        <translation>ОК</translation>
+    </message>
+    <message>
+        <location filename="replacedialog.ui" line="157"/>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -552,29 +562,39 @@
         <translation>Поиск</translation>
     </message>
     <message>
-        <location filename="searchdialog.ui" line="54"/>
+        <location filename="searchdialog.ui" line="38"/>
         <source>All following occurences</source>
         <translation>Все последующие вхождения</translation>
     </message>
     <message>
-        <location filename="searchdialog.ui" line="67"/>
+        <location filename="searchdialog.ui" line="51"/>
         <source>First occurrence</source>
         <translation>Первое вхождение</translation>
     </message>
     <message>
-        <location filename="searchdialog.ui" line="83"/>
+        <location filename="searchdialog.ui" line="67"/>
         <source>What:</source>
         <translation>Что:</translation>
     </message>
     <message>
-        <location filename="searchdialog.ui" line="101"/>
+        <location filename="searchdialog.ui" line="85"/>
         <source>Case-sensitive</source>
         <translation>С учётом регистра</translation>
     </message>
     <message>
-        <location filename="searchdialog.ui" line="127"/>
+        <location filename="searchdialog.ui" line="111"/>
         <source>All document</source>
         <translation>Весь документ</translation>
+    </message>
+    <message>
+        <location filename="searchdialog.ui" line="127"/>
+        <source>OK</source>
+        <translation>ОК</translation>
+    </message>
+    <message>
+        <location filename="searchdialog.ui" line="134"/>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -623,6 +643,16 @@
         <location filename="settingsdialog.ui" line="103"/>
         <source>Word wrap</source>
         <translation>Перенос по словам</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="115"/>
+        <source>OK</source>
+        <translation>ОК</translation>
+    </message>
+    <message>
+        <location filename="settingsdialog.ui" line="122"/>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
     </message>
 </context>
 </TS>
