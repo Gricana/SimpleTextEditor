@@ -20,9 +20,12 @@
 #endif
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
-    ui(new Ui::MainWindow), settingsDialog(new SettingsDialog), searchDialog(new SearchDialog), replaceDialog(new ReplaceDialog), settings(QSettings::NativeFormat, QSettings::UserScope, "IT", qApp->applicationName())
+    ui(new Ui::MainWindow), settings(QSettings::NativeFormat, QSettings::UserScope, "IT", qApp->applicationName())
 {
     ui->setupUi(this);
+    settingsDialog = new SettingsDialog(this);
+    replaceDialog = new ReplaceDialog(this);
+    searchDialog = new SearchDialog(this);
 
     QTextCodec* codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
@@ -95,7 +98,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Print, SIGNAL(triggered()), this, SLOT(slotPrint()), Qt::UniqueConnection);
     connect(ui->action_English, SIGNAL(triggered()), this, SLOT(slotEnglishLanguage()), Qt::UniqueConnection);
     connect(ui->action_Russian, SIGNAL(triggered()), this, SLOT(slotRussianLanguage()), Qt::UniqueConnection);
-//    applyLanguageSetting();
+    applyLanguageSetting();
     applyInputSettings();
     readSettings();
     setWindowModified(false);
@@ -105,8 +108,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
 void MainWindow::applyLanguageSetting()
 {
     if (settings.value("/SETTING_LANGUAGE_RUSSIAN", ui->action_Russian->isEnabled()).toBool())
+    {
+        translatorRussian = new QTranslator(this);
         slotRussianLanguage();
-    else slotEnglishLanguage();
+    } else slotEnglishLanguage();
 }
 
 void MainWindow::setLanguageSetting()
@@ -123,14 +128,12 @@ void MainWindow::slotRussianLanguage()
     ui->action_English->setDisabled(false);
     setLanguageSetting();
     askForFileSaveAndClose();
-    QTranslator translator;
-    translator.load(QString("%1/languages/QReader_ru").arg(QCoreApplication::applicationDirPath()));
-    qApp->installTranslator(&translator);
+    translatorRussian->load(QString("%1/languages/QReader_ru").arg(QCoreApplication::applicationDirPath()));
+    qApp->installTranslator(translatorRussian);
     ui->retranslateUi(this);
     settingsDialog->setRussianLanguage();
     searchDialog->setRussianLanguage();
     replaceDialog->setRussianLanguage();
-
     setWindowModified(false);
     slotNew();
 }
@@ -141,11 +144,9 @@ void MainWindow::slotEnglishLanguage()
     ui->action_Russian->setDisabled(false);
     setLanguageSetting();
     askForFileSaveAndClose();
-//    qApp->quit();
-//    QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
-    QTranslator translator;
-    translator.load(QString(QString("%1/languages/QReader_en").arg(QCoreApplication::applicationDirPath())));
-    qApp->installTranslator(&translator);
+    QTranslator translatorEnglish(this);
+    translatorEnglish.load(QString("%1/languages/QReader_en").arg(QCoreApplication::applicationDirPath()));
+    qApp->installTranslator(&translatorEnglish);
     ui->retranslateUi(this);
     settingsDialog->setEnglishLanguage();
     replaceDialog->setEnglishLanguage();
@@ -622,5 +623,6 @@ MainWindow::~MainWindow()
     delete settingsDialog;
     delete searchDialog;
     delete replaceDialog;
+    delete translatorRussian;
 }
 

@@ -40,6 +40,7 @@ private:
     SearchDialog *searchDialog;
     ReplaceDialog *replaceDialog;
     QSettings settings;
+    QTranslator *translatorRussian;
     void readSettings();
     void writeSettings();
     void applyInputSettings();
