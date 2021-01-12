@@ -99,16 +99,14 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->action_Russian, SIGNAL(triggered()), this, SLOT(slotRussianLanguage()), Qt::UniqueConnection);
     applyLanguageSetting();
     applyInputSettings();
-    readSettings();;
+    readSettings();
 }
 
 void MainWindow::applyLanguageSetting()
 {
     settings.beginGroup("/SETTINGS_GROUP_VIEW");
     if (settings.value("/SETTING_LANGUAGE_RUSSIAN", ui->action_Russian->isEnabled()).toBool())
-    {
         slotRussianLanguage();
-    }
     else
         slotEnglishLanguage();
     settings.endGroup();
@@ -247,8 +245,8 @@ void MainWindow::slotNew()
     {
         fileName = "Untitled.txt";
         ui->plainTextEdit->clear();
-        setWindowModified(false);
         updateTitle();
+        setWindowModified(false);
     }
 }
 
@@ -286,6 +284,7 @@ void MainWindow::slotSave()
         file.close();
         ui->plainTextEdit->clear();
         ui->plainTextEdit->setPlainText(document);
+        ui->plainTextEdit->moveCursor(QTextCursor::End);
         setWindowModified(false);
         updateTitle();
     }
