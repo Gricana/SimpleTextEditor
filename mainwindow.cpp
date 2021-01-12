@@ -100,6 +100,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     applyLanguageSetting();
     applyInputSettings();
     readSettings();
+    setWindowModified(false);
 }
 
 void MainWindow::applyLanguageSetting()
@@ -143,9 +144,9 @@ void MainWindow::slotEnglishLanguage()
     ui->action_Russian->setDisabled(false);
     setLanguageSetting();
     askForFileSaveAndClose();
-    QTranslator translatorEnglish(this);
-    translatorEnglish.load(QString("%1/languages/QReader_en").arg(QCoreApplication::applicationDirPath()));
-    qApp->installTranslator(&translatorEnglish);
+    translatorEnglish = new QTranslator(this);
+    translatorEnglish->load(QString("%1/languages/QReader_en").arg(QCoreApplication::applicationDirPath()));
+    qApp->installTranslator(translatorEnglish);
     ui->retranslateUi(this);
     settingsDialog->setEnglishLanguage();
     replaceDialog->setEnglishLanguage();
@@ -245,8 +246,8 @@ void MainWindow::slotNew()
     {
         fileName = "Untitled.txt";
         ui->plainTextEdit->clear();
-        updateTitle();
         setWindowModified(false);
+        updateTitle();
     }
 }
 
@@ -607,12 +608,13 @@ void MainWindow::slotReplaceText()
 
 void MainWindow::checkingReplace()
 {
-    if (isReplace) {
+    if (isReplace == true) {
     QTextCursor cursor(ui->plainTextEdit->textCursor());
     const int cursorPosition = cursor.position();
     QString document = ui->plainTextEdit->document()->toPlainText();
     ui->plainTextEdit->clear();
-    QTextCharFormat highlight; highlight.setBackground(QColor(color));
+    QTextCharFormat highlight;
+    highlight.setBackground(QColor(color));
     ui->plainTextEdit->textCursor().insertText(document, highlight);
     cursor.setPosition(cursorPosition);
     ui->plainTextEdit->setTextCursor(cursor);
@@ -628,5 +630,6 @@ MainWindow::~MainWindow()
     delete searchDialog;
     delete replaceDialog;
     delete translatorRussian;
+    if (translatorEnglish != nullptr) delete translatorEnglish;
 }
 

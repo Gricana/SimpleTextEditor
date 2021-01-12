@@ -30,7 +30,7 @@ private:
     QFont font = QFont("Times", 14);
     QColor color;
     bool isLight, isDark;
-    bool isReplace;
+    bool isReplace = false;
     unsigned long int zoomValue = 100;
     void lightTheme();
     void darkTheme();
@@ -41,6 +41,7 @@ private:
     ReplaceDialog *replaceDialog;
     QSettings settings;
     QTranslator *translatorRussian;
+    QTranslator *translatorEnglish;
     void readSettings();
     void writeSettings();
     void applyInputSettings();
