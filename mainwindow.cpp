@@ -280,9 +280,13 @@ void MainWindow::slotSave()
     {
         fileName = Filename;
         QTextStream writeStream(&file);
-        writeStream << ui->plainTextEdit->toPlainText();
+        QString document = ui->plainTextEdit->toPlainText();
+        writeStream << document;
         file.close();
+        ui->plainTextEdit->clear();
+        ui->plainTextEdit->setPlainText(document);
         setWindowModified(false);
+        updateTitle();
     }
     else {
         QMessageBox::warning(this, tr("Error"), QString(tr("Could not open file %1 for writing")).arg(file.fileName()), QMessageBox::Ok);
