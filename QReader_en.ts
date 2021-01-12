@@ -374,12 +374,12 @@
     <message>
         <location filename="mainwindow.cpp" line="164"/>
         <source>This program has been started </source>
-        <translation>This program has been started</translation>
+        <translation>This program has been started </translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="164"/>
         <source> times</source>
-        <translation>times</translation>
+        <translation> times</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="228"/>

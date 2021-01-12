@@ -383,7 +383,7 @@
     <message>
         <location filename="mainwindow.cpp" line="164"/>
         <source> times</source>
-        <translation> раз</translation>
+        <translation> раз(а)</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="228"/>
